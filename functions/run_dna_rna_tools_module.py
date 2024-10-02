@@ -1,3 +1,15 @@
+dict_complement = {
+        "A": "T",
+        "T": "A",
+        "G": "C",
+        "C": "G",
+        "U": "A",
+        "a": "t",
+        "t": "a",
+        "g": "c",
+        "c": "g",
+        "u": "a"
+    }
 
 def transcribe(seq: str) -> str:
     """Функция переводит смысловую молекулу ДНК в молекулу мРНК.\
@@ -13,18 +25,6 @@ def reverse(seq: str) -> str:
 
 def complement(seq: str) -> str:
     """Возвращает комплементарную цепь ДНК/РНК в направлении от 3' к  5'"""
-    dict_complement = {
-        "A": "T",
-        "T": "A",
-        "G": "C",
-        "C": "G",
-        "U": "A",
-        "a": "t",
-        "t": "a",
-        "g": "c",
-        "c": "g",
-        "u": "a"
-    }
     return "".join([dict_complement[nucleotide] for nucleotide in seq])
 
 
@@ -42,7 +42,7 @@ def gc_content(seq: str) -> float:
 
 
 def is_coding_sequence(seq: str) -> bool:
-    """Проверяет, может предположительно последовательность кодировать белок"""
+    """Проверяет, может ли предположительно последовательность кодировать белок"""
     stop_codons = ("UAA", "UAG", "UGA")
     rna_seq = transcribe(seq)
     return (any([codon in rna_seq.upper() for codon in stop_codons])
@@ -64,11 +64,10 @@ def protein_coding_sequence(seq: str) -> str:
         if len_seq > 0:
             return (f"Предположительно, {seq=} кодирующая последовательность\n"
                     f"Длина CDS составляет {len_seq} пар оснований")
-        return f"Последовательность {seq=} не кодирует белок"
     return f"Последовательность {seq=} не кодирует белок"
 
 
-def is_dna_sequence(seq: str) -> bool:
+def is_na_sequence(seq: str) -> bool:
     """Проверяет, является ли последовательность ДНК или РНК"""
     dna = {"A", "T", "C", "G"}
     rna = {"A", "U", "C", "G"}
