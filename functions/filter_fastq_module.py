@@ -1,13 +1,26 @@
-import run_dna_rna_tools_module as tools
+from run_dna_rna_tools_module import gc_content
 
-def is_good_gc_bounds(seq:str, gc_bound:tuple=(0, 100)) -> bool:
-    gc_bounds_seq = tools.gc_content(seq)
-    return gc_bounds_seq in gc_bound
 
-def is_good_length_bounds(seq:str, length_bounds:float=0.2**32) -> bool:
-    """Возвращает булевое значение """
-    return len(seq) < length_bounds
+def is_good_gc_bounds(seq: str, gc_bound: tuple | float) -> bool:
+    gc_lower = 0
+    gc_upper = gc_bound
+    if isinstance(gc_bound, tuple):
+        gc_lower, gc_upper = gc_bound
+    gc_bounds_seq = gc_content(seq)
+    return gc_lower <= gc_bounds_seq <= gc_upper
 
-def is_good_quality_threshold(quality_seq:str, quality_threshold:float=0) -> bool:
-    quality_transform = [ord(quality) for quality in quality_seq.upper()]
-    return sum(quality_transform)/len(quality_transform) > quality_threshold
+def is_good_length_bounds(seq: str, length_bounds: tuple | float) -> bool:
+    """Возвращает булево значение """
+    length_lower = 0
+    length_upper = length_bounds
+    if isinstance(length_bounds, tuple):
+        length_lower, length_upper = length_bounds
+    return length_lower <= len(seq) <= length_upper
+
+
+def is_good_quality_threshold(quality: str, quality_threshold: float) -> bool:
+    if not quality:
+        raise ValueError("Quality is empty string")
+    quality_transform = [ord(quality)-33 for quality in quality.upper()]
+    return sum(quality_transform) / len(quality_transform) >= quality_threshold
+
