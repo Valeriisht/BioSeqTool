@@ -1,8 +1,22 @@
 import sys
-sys.path.insert(0, 'functions')
 
-from functions import filter_fastq_module as fastq
-from functions import run_dna_rna_tools_module as tools
+# sys.path.insert(0, "functions")
+sys.path.append("functions")
+
+from functions.filter_fastq_module import (
+    is_good_gc_bounds,
+    is_good_length_bounds,
+    is_good_quality_threshold,
+)
+from functions.run_dna_rna_tools_module import (
+    transcribe,
+    reverse,
+    complement,
+    reverse_complement,
+    gc_content,
+    protein_coding_sequence,
+    is_na_sequence,
+)
 
 
 def run_dna_rna_tools(*args: str) -> list[any] | str:
@@ -19,26 +33,32 @@ def run_dna_rna_tools(*args: str) -> list[any] | str:
     """
     *sequences, name_function = args
     dict_functions = {
-        "transcribe": tools.transcribe,
-        "reverse": tools.reverse,
-        "complement": tools.complement,
-        "reverse_complement": tools.reverse_complement,
-        "gc_content": tools.gc_content,
-        "protein_coding_sequence": tools.protein_coding_sequence
+        "transcribe": transcribe,
+        "reverse": reverse,
+        "complement": complement,
+        "reverse_complement": reverse_complement,
+        "gc_content": gc_content,
+        "protein_coding_sequence": protein_coding_sequence,
     }
     result = []
     if name_function not in dict_functions.keys():
         raise ValueError(f"Функция {name_function} не определена")
     for seq in sequences:
-        if not tools.is_na_sequence(seq):
+        if not is_na_sequence(seq):
             raise ValueError(f"Ошибка ввода данных: {seq} не ДНК или РНК")
         result.append(str(dict_functions[name_function](seq)))
     if len(sequences) == 1:
         return result[0]
     return result
 
-def filter_fastq(seqs:dict[str, tuple], gc_bounds:tuple=(0,100), length_bounds:float=0.2**32, quality_threshold:float=0) -> dict[str, tuple]:
-    """ Функция принимает на вход словарь со значением последовательности рида и его качеством.
+
+def filter_fastq(
+        seqs: dict[str, tuple[str, str]],
+        gc_bounds: tuple | float = (0, 100),
+        length_bounds:tuple | float = (0, 2**32),
+        quality_threshold: float = 0,
+) -> dict[str, tuple[str, str]]:
+    """Функция принимает на вход словарь со значением последовательности рида и его качеством.
     Далее к каждому риду применяет функцию из модуля filter_fastq_module.
     В итоге, возвращается словарь с ридами, удовлетворяющие стандарту качества.
 
@@ -57,8 +77,15 @@ def filter_fastq(seqs:dict[str, tuple], gc_bounds:tuple=(0,100), length_bounds:f
     :return Словарь с качественными ридами
     """
     good_seqs = {}
-    for name_seq, seq in seqs.items():
-        if all([fastq.is_good_gc_bounds(seq[0], gc_bounds),fastq.is_good_length_bounds(seq[0], length_bounds), fastq.is_good_quality_threshold(seq[1], quality_threshold)]):
-            good_seqs[name_seq] = (seq[0], seq[1])
+    for name_seq, seq_data in seqs.items():
+        seq, quality = seq_data
+        if all(
+                [
+                    is_good_gc_bounds(seq, gc_bounds),
+                    is_good_length_bounds(seq, length_bounds),
+                    is_good_quality_threshold(quality, quality_threshold),
+                ]
+        ):
+            good_seqs[name_seq] = seq_data
     return good_seqs
 

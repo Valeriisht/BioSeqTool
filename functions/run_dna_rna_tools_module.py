@@ -38,7 +38,7 @@ def gc_content(seq: str) -> float:
      возвращает долю GC-нуклеотидов в последовательности"""
     count_g = seq.upper().count("G")
     count_c = seq.upper().count("C")
-    return round((count_c + count_g) / len(seq), 2)
+    return round((count_c + count_g) / len(seq), 2)*100
 
 
 def is_coding_sequence(seq: str) -> bool:
