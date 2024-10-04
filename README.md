@@ -22,7 +22,7 @@ git clone git@github.com:Valeriisht/NASeqTool.git
   - ##### [run_dna_rna_tools](#run_dna_rna_tools)
   - ##### [filter_fastq_tool](#filter_fastq_tool)
 
-### <a name="run_dna_rna_tools"></a>run_dna_rna_tools
+### <a name="run_dna_rna_tools">run_dna_rna_tools</a>
 
 Утилита для манипуляции с молекулами ДНК/РНК. При исполнении скрипта подгружается модуль run_dna_rna_tool_module.py.
 
@@ -57,7 +57,7 @@ git clone git@github.com:Valeriisht/NASeqTool.git
 
 Определяется длина кодирующей последовательности CDS.
 
-## <a name="filter_fastq_tool"></a>filter_fastq_tool
+## <a name="filter_fastq_tool">filter_fastq_tool</a>
 
 Утилита для обработки данных секвенирования в формате fastq. При исполнении скрипта подгружается модуль filter_fastq_module.py.
 
