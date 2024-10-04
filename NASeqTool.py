@@ -4,9 +4,7 @@ import sys
 sys.path.append("functions")
 
 from functions.filter_fastq_module import (
-    is_good_gc_bounds,
-    is_good_length_bounds,
-    is_good_quality_threshold,
+    is_good_quality_threshold, is_good_gc_content, is_good_length,
 )
 from functions.run_dna_rna_tools_module import (
     transcribe,
@@ -42,47 +40,43 @@ def run_dna_rna_tools(*args: str) -> list[any] | str:
     }
     result = []
     if name_function not in dict_functions.keys():
-        raise ValueError(f"Функция {name_function} не определена")
+        raise ValueError(f"Function {name_function} is not defined")
     for seq in sequences:
         if not is_na_sequence(seq):
-            raise ValueError(f"Ошибка ввода данных: {seq} не ДНК или РНК")
+            raise ValueError(f"{seq=} is not DNA or RNA")
         result.append(str(dict_functions[name_function](seq)))
-    if len(sequences) == 1:
-        return result[0]
-    return result
+    return result if len(sequences) > 1 else result[0]
 
 
 def filter_fastq(
         seqs: dict[str, tuple[str, str]],
         gc_bounds: tuple | float = (0, 100),
-        length_bounds:tuple | float = (0, 2**32),
+        length_bounds: tuple | float = (0, 2**32),
         quality_threshold: float = 0,
 ) -> dict[str, tuple[str, str]]:
     """Функция принимает на вход словарь со значением последовательности рида и его качеством.
     Далее к каждому риду применяет функцию из модуля filter_fastq_module.
-    В итоге, возвращается словарь с ридами, удовлетворяющие стандарту качества.
+    В итоге, возвращается словарь с ридами, удовлетворяющими заданным пороговым значениям для фильтрации.
 
     :param seqs:
-    :type seqs: Dict[str, tuple]
+    :type seqs: dict[str, tuple[str, str]]
     :param gc_bounds:
-    :type gc_bounds: tuple
+    :type gc_bounds: tuple | float
     :param length_bounds:
-    :type length_bounds: float
+    :type length_bounds:  tuple | float
     :param quality_threshold:
     :type quality_threshold: float
 
-    :raises ValueError:
-
-    :rtype: dict[str, tuple]
-    :return Словарь с качественными ридами
+    :rtype: dict[str, tuple[str, str]]
+    :return: dict с отфильтрованными ридами
     """
     good_seqs = {}
     for name_seq, seq_data in seqs.items():
         seq, quality = seq_data
         if all(
                 [
-                    is_good_gc_bounds(seq, gc_bounds),
-                    is_good_length_bounds(seq, length_bounds),
+                    is_good_gc_content(seq, gc_bounds),
+                    is_good_length(seq, length_bounds),
                     is_good_quality_threshold(quality, quality_threshold),
                 ]
         ):
