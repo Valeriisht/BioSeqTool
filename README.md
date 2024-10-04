@@ -19,8 +19,8 @@ git clone git@github.com:Valeriisht/NASeqTool.git
 ### Содержание 
 
 - #### NASeqTool
-  - ##### [run_dna_rna_tools](#run_dna_rna_tools)
-  - ##### [filter_fastq_tool](#filter_fastq_tool)
+  - ##### [Run_dna_rna_tools](#run_dna_rna_tools)
+  - ##### [Filter_fastq_tool](#filter_fastq_tool)
 
 ### run_dna_rna_tools
 
