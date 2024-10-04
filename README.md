@@ -24,7 +24,7 @@ git clone git@github.com:Valeriisht/NASeqTool.git
 
 ### run_dna_rna_tools
 
-Утилита для манипуляции с молекулами ДНК/РНК.При исполнении скрипта подгружается модуль run_dna_rna_tool_module.py.
+Утилита для манипуляции с молекулами ДНК/РНК. При исполнении скрипта подгружается модуль run_dna_rna_tool_module.py.
 
 ### Использование
 Вам понадобятся:
