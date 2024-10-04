@@ -1,15 +1,16 @@
 dict_complement = {
-        "A": "T",
-        "T": "A",
-        "G": "C",
-        "C": "G",
-        "U": "A",
-        "a": "t",
-        "t": "a",
-        "g": "c",
-        "c": "g",
-        "u": "a"
-    }
+    "A": "T",
+    "T": "A",
+    "G": "C",
+    "C": "G",
+    "U": "A",
+    "a": "t",
+    "t": "a",
+    "g": "c",
+    "c": "g",
+    "u": "a",
+}
+
 
 def transcribe(seq: str) -> str:
     """Функция переводит смысловую молекулу ДНК в молекулу мРНК.\
@@ -38,15 +39,16 @@ def gc_content(seq: str) -> float:
      возвращает долю GC-нуклеотидов в последовательности"""
     count_g = seq.upper().count("G")
     count_c = seq.upper().count("C")
-    return round((count_c + count_g) / len(seq), 2)*100
+    return round((count_c + count_g) / len(seq), 2) * 100
 
 
 def is_coding_sequence(seq: str) -> bool:
-    """Проверяет, может ли предположительно последовательность кодировать белок"""
+    """Проверяет, может ли предположительно
+    последовательность кодировать белок"""
     stop_codons = ("UAA", "UAG", "UGA")
     rna_seq = transcribe(seq)
-    return (any([codon in rna_seq.upper() for codon in stop_codons])
-            and "AUG" in rna_seq)
+    return any([codon in rna_seq.upper()
+                for codon in stop_codons]) and "AUG" in rna_seq
 
 
 def protein_coding_sequence(seq: str) -> str:
@@ -55,15 +57,19 @@ def protein_coding_sequence(seq: str) -> str:
     rna_seq = transcribe(seq)
     if is_coding_sequence(seq):
         pos_start = rna_seq.upper().index("AUG")
-        pos_stop = min([
-            index_stop
-            for index_stop in range(pos_start, len(rna_seq), 3)
-            if rna_seq[index_stop:(index_stop + 3)].upper() in stop_codons
-        ])
+        pos_stop = min(
+            [
+                index_stop
+                for index_stop in range(pos_start, len(rna_seq), 3)
+                if rna_seq[index_stop: (index_stop + 3)].upper() in stop_codons
+            ]
+        )
         len_seq = abs(pos_start - (pos_stop + 3))
         if len_seq > 0:
-            return (f"Предположительно, {seq=} кодирующая последовательность\n"
-                    f"Длина CDS составляет {len_seq} пар оснований")
+            return (
+                f"Предположительно, {seq=} кодирующая последовательность\n"
+                f"Длина CDS составляет {len_seq} пар оснований"
+            )
     return f"Последовательность {seq=} не кодирует белок"
 
 

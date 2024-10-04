@@ -3,7 +3,9 @@ import sys
 sys.path.append("functions")
 
 from functions.filter_fastq_module import (
-    is_good_quality_threshold, is_good_gc_content, is_good_length,
+    is_good_quality_threshold,
+    is_good_gc_content,
+    is_good_length,
 )
 from functions.run_dna_rna_tools_module import (
     transcribe,
@@ -48,10 +50,10 @@ def run_dna_rna_tools(*args: str) -> list[any] | str:
 
 
 def filter_fastq(
-        seqs: dict[str, tuple[str, str]],
-        gc_bounds: tuple | float = (0, 100),
-        length_bounds: tuple | float = (0, 2**32),
-        quality_threshold: float = 0,
+    seqs: dict[str, tuple[str, str]],
+    gc_bounds: tuple | float = (0, 100),
+    length_bounds: tuple | float = (0, 2 ** 32),
+    quality_threshold: float = 0,
 ) -> dict[str, tuple[str, str]]:
     """Функция принимает на вход словарь со значением последовательности рида и его качеством.
     Далее к каждому риду применяет функцию из модуля filter_fastq_module.
@@ -73,12 +75,11 @@ def filter_fastq(
     for name_seq, seq_data in seqs.items():
         seq, quality = seq_data
         if all(
-                [
-                    is_good_gc_content(seq, gc_bounds),
-                    is_good_length(seq, length_bounds),
-                    is_good_quality_threshold(quality, quality_threshold),
-                ]
+            [
+                is_good_gc_content(seq, gc_bounds),
+                is_good_length(seq, length_bounds),
+                is_good_quality_threshold(quality, quality_threshold),
+            ]
         ):
             good_seqs[name_seq] = seq_data
     return good_seqs
-
