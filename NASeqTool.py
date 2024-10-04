@@ -1,6 +1,5 @@
 import sys
 
-# sys.path.insert(0, "functions")
 sys.path.append("functions")
 
 from functions.filter_fastq_module import (
