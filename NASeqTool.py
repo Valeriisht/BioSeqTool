@@ -1,5 +1,4 @@
 import sys
-
 sys.path.append("functions")
 
 from functions.filter_fastq_module import (
@@ -19,7 +18,8 @@ from functions.run_dna_rna_tools_module import (
 
 
 def run_dna_rna_tools(*args: str) -> list[any] | str:
-    """Запускает выбранную из словаря функцию. Функции импортируются из модуля run_dna_rna_tools.
+    """Запускает выбранную из словаря функцию.
+    Функции импортируются из модуля run_dna_rna_tools.
 
     :param args:
     :type args: str
@@ -55,9 +55,12 @@ def filter_fastq(
     length_bounds: tuple | float = (0, 2 ** 32),
     quality_threshold: float = 0,
 ) -> dict[str, tuple[str, str]]:
-    """Функция принимает на вход словарь со значением последовательности рида и его качеством.
+    """Функция принимает на вход словарь,
+    где в качестве ключа выступает наименование рида,
+    в качестве значения последовательность рида и его качество.
     Далее к каждому риду применяет функцию из модуля filter_fastq_module.
-    В итоге, возвращается словарь с ридами, удовлетворяющими заданным пороговым значениям для фильтрации.
+    В итоге, возвращается словарь с ридами,
+    удовлетворяющими заданным пороговым значениям для фильтрации.
 
     :param seqs:
     :type seqs: dict[str, tuple[str, str]]
