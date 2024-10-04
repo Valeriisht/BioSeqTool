@@ -21,7 +21,7 @@ def run_dna_rna_tools(*args: str) -> list[any] | str:
     """Запускает выбранную из словаря функцию.
     Функции импортируются из модуля run_dna_rna_tools.
 
-    :param args:
+    :param args: последовательности ДНК/РНК
     :type args: str
 
     :raises ValueError: если function_name не определена в dict_functions
@@ -62,13 +62,13 @@ def filter_fastq(
     В итоге, возвращается словарь с ридами,
     удовлетворяющими заданным пороговым значениям для фильтрации.
 
-    :param seqs:
+    :param seqs: словарь с последовательностью ДНК и ее качеством
     :type seqs: dict[str, tuple[str, str]]
-    :param gc_bounds:
+    :param gc_bounds: порог для фильтрации по gc-составу
     :type gc_bounds: tuple | float
-    :param length_bounds:
+    :param length_bounds: порог для фильтрации по длине
     :type length_bounds:  tuple | float
-    :param quality_threshold:
+    :param quality_threshold: порог для фильтрации по качеству
     :type quality_threshold: float
 
     :rtype: dict[str, tuple[str, str]]
