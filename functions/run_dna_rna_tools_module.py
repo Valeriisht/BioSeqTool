@@ -51,7 +51,7 @@ def is_coding_sequence(seq: str) -> bool:
                 for codon in stop_codons]) and "AUG" in rna_seq
 
 
-def protein_coding_sequence(seq: str) -> str:
+def length_cds(seq: str) -> str:
     """Определяет длину кодирующей последовательности CDS"""
     stop_codons = ("UAA", "UAG", "UGA")
     rna_seq = transcribe(seq)
