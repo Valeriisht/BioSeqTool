@@ -19,7 +19,7 @@ def is_good_length(seq: str, length_bounds: tuple | float) -> bool:
     return length_lower <= len(seq) <= length_upper
 
 
-def is_good_quality_threshold(quality: str, quality_threshold: float) -> bool:
+def is_good_quality(quality: str, quality_threshold: float) -> bool:
     """Проверяет, соответствует ли качество рида
      по шкале phred33 пороговым значениям."""
     if not quality:
