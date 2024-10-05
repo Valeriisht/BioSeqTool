@@ -17,7 +17,7 @@ Clone the repository to a local device.
 git clone git@github.com:Valeriisht/NASeqTool.git
 ```
 
-## Contents 
+## Content
 
 The repository structure is structured as the main folder with the master NASeqTool script, where the basic functions are declared, and the subfolder functions with imported modules.
 
