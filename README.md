@@ -1,5 +1,5 @@
 - [**Русская версия**](#NASeqTool)
-- [**English version**](-#NASeqTool)
+- [**English version**](#NASeqTool_)
 
 # NASeqTool
 
@@ -104,7 +104,7 @@ git clone git@github.com:Valeriisht/NASeqTool.git
 Результатом работы программы является словарь, содержащий название и нуклеотидную последовательность ридов, прошедших каждую из трех фильтраций.
 
 
-- # NASeqTool
+# NASeqTool_
 
 **NASeqTool** is a bioinformatics tool  for analyzing DNA and RNA sequences.
 
@@ -128,10 +128,10 @@ The repository structure is structured as the main folder with the master NASeqT
 The utility was designed to run on Python version 3.10 or newer.
 
 - ### NASeqTool
-    - [**run_dna_rna_tools**](#run_dna_rna_tools)
-    - [**filter_fastq_tool**](#filter_fastq_tool)
+    - [**run_dna_rna_tools**](#run_dna_rna_tools_)
+    - [**filter_fastq_tool**](#filter_fastq_tool_)
 
-## run_dna_rna_tools
+## run_dna_rna_tools_
 
 A utility for manipulating DNA/RNA molecules. The run_dna_rna_tool_module.py module is loaded when the script is executed.
 
@@ -170,7 +170,7 @@ Checks whether the sequence is DNA or RNA.
 
 Determines the length of the CDS coding sequence.
 
-## Filter_fastq_tool function
+## Filter_fastq_tool function_
 
 The utility for analyzing sequencing data in fastq format. The filter_fastq_module.py module is loaded when the script is executed.
 
