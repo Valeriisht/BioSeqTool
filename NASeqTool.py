@@ -18,17 +18,17 @@ from functions.run_dna_rna_tools_module import (
 
 
 def run_dna_rna_tools(*args: str) -> list[any] | str:
-    """Запускает выбранную из словаря функцию.
-    Функции импортируются из модуля run_dna_rna_tools.
+    """Runs the function selected from the dictionary.
+    Functions are imported from the run_dna_rna_tools module.
 
-    :param args: последовательности ДНК/РНК
+    :param args: DNA/RNA sequences
     :type args: str
 
-    :raises ValueError: если function_name не определена в dict_functions
-    :raises ValueError: если seq не является ДНК/РНК
+    :raises ValueError: if function_name is not defined in dict_functions
+    :raises ValueError: if the seq is not DNA/RNA
 
     :rtype: list[any] | str
-    :return: результат  работы применяемой функции в виде списка или строки
+    :return: the result of the applied function in the form of a list or a string
     """
     *sequences, name_function = args
     dict_functions = {
@@ -55,24 +55,24 @@ def filter_fastq(
     length_bounds: tuple | float = (0, 2 ** 32),
     quality_threshold: float = 0,
 ) -> dict[str, tuple[str, str]]:
-    """Функция принимает на вход словарь,
-    где в качестве ключа выступает наименование рида,
-    в качестве значения последовательность рида и его качество.
-    Далее к каждому риду применяет функцию из модуля filter_fastq_module.
-    В итоге, возвращается словарь с ридами,
-    удовлетворяющими заданным пороговым значениям для фильтрации.
+    """The function takes a dictionary as input,
+    where the key is the name of the reid,
+    the value is the sequence of the reid and its quality.
+    Then it applies the function from filter_fastq_module to each reid.
+    As a result, it returns a dictionary of reids,
+    satisfying the specified threshold values for filtering.
 
-    :param seqs: словарь с последовательностью ДНК и ее качеством
+    :param seqs: a dictionary with the DNA sequence and its quality
     :type seqs: dict[str, tuple[str, str]]
-    :param gc_bounds: порог для фильтрации по gc-составу
+    :param gc_bounds: threshold for filtering by gc-content
     :type gc_bounds: tuple | float
-    :param length_bounds: порог для фильтрации по длине
+    :param length_bounds: length filtering threshold
     :type length_bounds:  tuple | float
-    :param quality_threshold: порог для фильтрации по качеству
+    :param quality_threshold: quality filtering threshold
     :type quality_threshold: float
 
     :rtype: dict[str, tuple[str, str]]
-    :return: dict с отфильтрованными ридами
+    :return: dict with filtered reids
     """
     good_seqs = {}
     for name_seq, seq_data in seqs.items():
