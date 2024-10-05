@@ -76,7 +76,7 @@ git clone git@github.com:Valeriisht/NASeqTool.git
 
 Определяется длина кодирующей последовательности CDS.
 
-## Функция filter_fastq_tool
+## filter_fastq_tool
 
 Утилита для обработки данных секвенирования в формате fastq. При исполнении скрипта подгружается модуль filter_fastq_module.py.
 
@@ -170,7 +170,7 @@ Checks whether the sequence is DNA or RNA.
 
 Determines the length of the CDS coding sequence.
 
-## Filter_fastq_tool function_
+## filter_fastq_tool_ 
 
 The utility for analyzing sequencing data in fastq format. The filter_fastq_module.py module is loaded when the script is executed.
 
