@@ -1,5 +1,9 @@
+  <img align=right src="https://github.com/user-attachments/assets/b140102f-7d82-4d61-8d01-09e9befba864" alt="image" width="500"/>
+
+
 - [**Русская версия**](#NASeqTool)
 - [**English version**](#NASeqTool_)
+  
 
 # NASeqTool
 
