@@ -13,38 +13,38 @@ dict_complement = {
 
 
 def transcribe(seq: str) -> str:
-    """Функция переводит смысловую молекулу ДНК в молекулу мРНК.\
-    Если на вход передана РНК, возвращается последовательность без изменений
+    """The function translates a meaningful DNA molecule into an mRNA molecule. \
+    If RNA is given as input, the sequence is returned unchanged.
     """
     return seq.replace("T", "U").replace("t", "u")
 
 
 def reverse(seq: str) -> str:
-    """Возвращает последовательность ДНК или РНК от 3' к 5'"""
+    """Returns the DNA or RNA sequence from 3' to 5'"""
     return seq[::-1]
 
 
 def complement(seq: str) -> str:
-    """Возвращает комплементарную цепь ДНК/кДНК в направлении от 3' к 5'"""
+    """Returns the complementary DNA/cDNA strand in the 3' to 5' direction"""
     return "".join([dict_complement[nucleotide] for nucleotide in seq])
 
 
 def reverse_complement(seq: str) -> str:
-    """Возвращает комплементарную цепь ДНК/кДНК в направлении от 5' к 3'"""
+    """Returns the complementary DNA/cDNA strand in the 5' to 3' direction"""
     return complement(seq)[::-1]
 
 
 def gc_content(seq: str) -> float:
-    """Подсчитывает GC-состав последовательности \
-     возвращает долю GC-нуклеотидов в последовательности"""
+    """Counts the GC content of the sequence \
+     returns the percentage of GC nucleotides in the sequence"""
     count_g = seq.upper().count("G")
     count_c = seq.upper().count("C")
     return round((count_c + count_g) / len(seq), 2) * 100
 
 
 def is_coding_sequence(seq: str) -> bool:
-    """Проверяет, может ли предположительно
-    последовательность кодировать белок"""
+    """Checks to see if the putative sequence 
+    can encode a protein"""
     stop_codons = ("UAA", "UAG", "UGA")
     rna_seq = transcribe(seq)
     return any([codon in rna_seq.upper()
@@ -52,7 +52,7 @@ def is_coding_sequence(seq: str) -> bool:
 
 
 def length_cds(seq: str) -> str:
-    """Определяет длину кодирующей последовательности CDS"""
+    """Defines the length of CDS"""
     stop_codons = ("UAA", "UAG", "UGA")
     rna_seq = transcribe(seq)
     if is_coding_sequence(seq):
@@ -67,14 +67,14 @@ def length_cds(seq: str) -> str:
         len_seq = abs(pos_start - (pos_stop + 3))
         if len_seq > 0:
             return (
-                f"Предположительно, {seq=} кодирующая последовательность\n"
-                f"Длина CDS составляет {len_seq} пар оснований"
+                f"Supposedly, {seq=} the coding sequence\n"
+                f"The length of the CDS is {len_seq} base pairs"
             )
-    return f"Последовательность {seq=} не кодирует белок"
+    return f"The {seq=} sequence does not encode a protein"
 
 
 def is_na_sequence(seq: str) -> bool:
-    """Проверяет, является ли последовательность ДНК или РНК"""
+    """Checks whether the DNA or RNA sequence"""
     dna = {"A", "T", "C", "G"}
     rna = {"A", "U", "C", "G"}
     return set(seq.upper()).issubset(dna) or set(seq.upper()).issubset(rna)
