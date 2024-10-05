@@ -2,7 +2,7 @@ import sys
 sys.path.append("functions")
 
 from functions.filter_fastq_module import (
-    is_good_quality_threshold,
+    is_good_quality,
     is_good_gc_content,
     is_good_length,
 )
@@ -12,7 +12,7 @@ from functions.run_dna_rna_tools_module import (
     complement,
     reverse_complement,
     gc_content,
-    protein_coding_sequence,
+    length_cds,
     is_na_sequence,
 )
 
