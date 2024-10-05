@@ -81,7 +81,7 @@ def filter_fastq(
             [
                 is_good_gc_content(seq, gc_bounds),
                 is_good_length(seq, length_bounds),
-                is_good_quality_threshold(quality, quality_threshold),
+                is_good_quality(quality, quality_threshold),
             ]
         ):
             good_seqs[name_seq] = seq_data
