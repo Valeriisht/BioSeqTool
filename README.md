@@ -77,7 +77,7 @@ git clone git@github.com:Valeriisht/NASeqTool.git
 
 Проверяется, является ли последовательность ДНК или РНК.
 
-- ### Функция ```protein_coding_sequence```
+- ### Функция ```length_cds```
 
 Определяется длина кодирующей последовательности CDS.
 
@@ -173,7 +173,7 @@ Counts the GC composition of the sequence and returns the percentage of GC nucle
 
 Checks whether the sequence is DNA or RNA.
 
-- ### Function ````protein_coding_sequence```
+- ### Function ````length_cds```
 
 Determines the length of the CDS coding sequence.
 
