@@ -1,5 +1,5 @@
 - [**Русская версия**](#NASeqTool)
-- [**English version**](#NASeqTool)
+- [**English version**](-#NASeqTool)
 
 # NASeqTool
 
@@ -104,7 +104,7 @@ git clone git@github.com:Valeriisht/NASeqTool.git
 Результатом работы программы является словарь, содержащий название и нуклеотидную последовательность ридов, прошедших каждую из трех фильтраций.
 
 
-# NASeqTool
+- # NASeqTool
 
 **NASeqTool** is a bioinformatics tool  for analyzing DNA and RNA sequences.
 
