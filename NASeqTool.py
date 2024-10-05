@@ -37,7 +37,7 @@ def run_dna_rna_tools(*args: str) -> list[any] | str:
         "complement": complement,
         "reverse_complement": reverse_complement,
         "gc_content": gc_content,
-        "protein_coding_sequence": protein_coding_sequence,
+        "length_cds": length_cds
     }
     result = []
     if name_function not in dict_functions.keys():
