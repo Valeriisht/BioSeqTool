@@ -1,11 +1,12 @@
-  <img align=right src="https://github.com/user-attachments/assets/b140102f-7d82-4d61-8d01-09e9befba864" alt="image" width="500"/>
-
 
 - [**Русская версия**](#NASeqTool)
 - [**English version**](#NASeqTool_)
   
 
+
 # NASeqTool
+
+<img align=right src="https://github.com/user-attachments/assets/612014fa-fa0d-4102-a23c-0ef233ae3b48" alt="#NASeqTool" width="100"/>
 
 **NASeqTool** биоинформатическая утилита для обработки последовательностей ДНК и РНК.
 
@@ -109,6 +110,8 @@ git clone git@github.com:Valeriisht/NASeqTool.git
 
 
 # NASeqTool_
+
+<img align=right src="https://github.com/user-attachments/assets/70983c21-48f4-41d0-a7dc-9d5b63982eff" alt="#NASeqTool" width="100"/>
 
 **NASeqTool** is a bioinformatics tool  for analyzing DNA and RNA sequences.
 
