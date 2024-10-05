@@ -1,7 +1,7 @@
-# NASeqTool
+- [**Русская версия**](#NASeqTool)
+- [**English version**](#NASeqTool)
 
-- [**Русская версия**](#**NASeqTool** )
-- [**English version**]
+# NASeqTool
 
 **NASeqTool** биоинформатическая утилита для обработки последовательностей ДНК и РНК.
 
@@ -23,7 +23,7 @@ git clone git@github.com:Valeriisht/NASeqTool.git
 
 Структура репозитория имеет следующий вид: корневая папка с главным скриптом NASeqTool, где объявлены основные функции, и подпапка functions с импортируемыми модулями.
 
-<img width="350" alt="Структура репозитория " src="https://github.com/user-attachments/assets/9e473b56-2f5b-41bc-a520-01f55c8edfe2">
+<img width="330" alt="Rep Structure" src="https://github.com/user-attachments/assets/196208c1-80eb-4ae8-b73a-57a143d88fea">
 
 
 Утилита была разработана для работы на версии Python3.10 или новее.
@@ -102,6 +102,101 @@ git clone git@github.com:Valeriisht/NASeqTool.git
 По умолчанию пороговое значение равняется 0.
 
 Результатом работы программы является словарь, содержащий название и нуклеотидную последовательность ридов, прошедших каждую из трех фильтраций.
+
+
+# NASeqTool
+
+**NASeqTool** is a bioinformatics tool  for analyzing DNA and RNA sequences.
+
+The repository consists of a main script and additional modules that are used for DNA/RNA sequence processing and sequencing data processing. The scripts are written in the Python programming language.
+
+## Installation
+
+Clone the repository to a local device.
+
+```sh
+git clone git@github.com:Valeriisht/NASeqTool.git
+```
+
+## Contents 
+
+The repository structure is structured as the main folder with the master NASeqTool script, where the basic functions are declared, and the subfolder functions with imported modules.
+
+<img width="330" alt="Rep Structure" src="https://github.com/user-attachments/assets/96110d54-b81e-438f-affc-dd1bdefd857f">
+
+
+The utility was designed to run on Python version 3.10 or newer.
+
+- ### NASeqTool
+    - [**run_dna_rna_tools**](#run_dna_rna_tools)
+    - [**filter_fastq_tool**](#filter_fastq_tool)
+
+## run_dna_rna_tools
+
+A utility for manipulating DNA/RNA molecules. The run_dna_rna_tool_module.py module is loaded when the script is executed.
+
+
+
+### Usage
+You will need:
+
+- DNA/RNA sequences are list (or string when performing an operation on a single sequence), which are required parameters for function calls.
+
+
+
+### The utility can perform the following operations: 
+
+- ### Function ``transcribe``.
+
+The meaningful DNA sequence is translated into an mRNA molecule. If RNA is passed as input, the sequence is returned unchanged.
+
+- #### Function ```reverse```
+
+Returns the complementary DNA strand in the 3' to 5' direction. For an RNA molecule, cDNA is returned.
+
+- #### Function ```reverse_complement```
+
+Returns the complementary DNA/cDNA strand in the 5' to 3' direction.
+
+- ### Function ````gc_content```
+
+Counts the GC composition of the sequence and returns the percentage of GC nucleotides.
+
+- ### Function ``is_na_sequence``.
+
+Checks whether the sequence is DNA or RNA.
+
+- ### Function ````protein_coding_sequence```
+
+Determines the length of the CDS coding sequence.
+
+## Filter_fastq_tool function
+
+The utility for analyzing sequencing data in fastq format. The filter_fastq_module.py module is loaded when the script is executed.
+
+### Usage
+
+You will need:
+
+- Sequences organized in a dictionary with sequence id as the key and a tuple with the sequence and its quality in phred33 scale as the value.
+
+Example fastq file structure:
+
+![img.png](img.png)
+
+### The utility performs the steps below:
+
+- Filtering the sequence with regard to gc_composition. The gc- composition is counted and determines if the value is within the thresholds.
+By default, the threshold values are defined from 0 to 100.
+
+- Filtering the sequence with regard to length. Checks whether the length of the sequence is within the specified threshold values.
+By default, the threshold values are defined from 0 to 2**32.
+
+- Sequence filtering with respect to sequence quality. Checks whether the quality on the phred33 scale is within the specified threshold values. The sequence quality is translated from phred33 scale to ASCII.
+By default, the threshold value is 0.
+
+The result of the program is a dictionary containing the name and nucleotide sequence that passed each of the three filters.
+
 
 
 
