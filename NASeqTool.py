@@ -1,4 +1,5 @@
 import sys
+import os
 sys.path.append("functions")
 
 from functions.filter_fastq_module import (
@@ -48,9 +49,23 @@ def run_dna_rna_tools(*args: str) -> list[any] | str:
         result.append(str(dict_functions[name_function](seq)))
     return result if len(sequences) > 1 else result[0]
 
+def read_fastq_file(input_fastq:str) -> dict[str, tuple[str, str]]:
+    if not os.path.exists(input_fastq):
+        raise SystemError("Error: File does not exist")
+    with open(input_fastq, "r") as fastq_file:
+        seqs = {}
+        one_seq = []
+        for fastq_seq in fastq_file:
+            if len(one_seq) < 5:
+                one_seq.append(fastq_seq.strip())
+            else:
+                seqs[one_seq[0]] = (one_seq[-2], one_seq[-1])
+                one_seq = []
+    return seqs
 
 def filter_fastq(
-    seqs: dict[str, tuple[str, str]],
+    input_fastq: str,
+    output_fastq: str,
     gc_bounds: tuple | float = (0, 100),
     length_bounds: tuple | float = (0, 2 ** 32),
     quality_threshold: float = 0,
@@ -62,6 +77,8 @@ def filter_fastq(
     As a result, it returns a dictionary of reids,
     satisfying the specified threshold values for filtering.
 
+    :param input_fastq:
+    :type input_fastq: str
     :param seqs: a dictionary with the DNA sequence and its quality
     :type seqs: dict[str, tuple[str, str]]
     :param gc_bounds: threshold for filtering by gc-content
@@ -74,6 +91,7 @@ def filter_fastq(
     :rtype: dict[str, tuple[str, str]]
     :return: dict with filtered reids
     """
+    seqs = read_fastq_file(input_fastq)
     good_seqs = {}
     for name_seq, seq_data in seqs.items():
         seq, quality = seq_data
