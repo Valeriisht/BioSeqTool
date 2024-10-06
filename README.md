@@ -45,27 +45,27 @@ You will need:
 
 ### The utility can perform the following operations: 
 
-- ### Function ``transcribe``.
+- ### Function ```transcribe```.
 
 The meaningful DNA sequence is translated into an mRNA molecule. If RNA is passed as input, the sequence is returned unchanged.
 
-- #### Function ```reverse```
+- ### Function ```reverse```
 
 Returns the complementary DNA strand in the 3' to 5' direction. For an RNA molecule, cDNA is returned.
 
-- #### Function ```reverse_complement```
+- ### Function ```reverse_complement```
 
 Returns the complementary DNA/cDNA strand in the 5' to 3' direction.
 
-- ### Function ````gc_content```
+- ### Function ```gc_content```
 
 Counts the GC composition of the sequence and returns the percentage of GC nucleotides.
 
-- ### Function ``is_na_sequence``.
+- ### Function ```is_na_sequence```.
 
 Checks whether the sequence is DNA or RNA.
 
-- ### Function ````length_cds```
+- ### Function ```length_cds```
 
 Determines the length of the CDS coding sequence.
 
