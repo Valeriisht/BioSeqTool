@@ -49,27 +49,14 @@ def run_dna_rna_tools(*args: str) -> list[any] | str:
         result.append(str(dict_functions[name_function](seq)))
     return result if len(sequences) > 1 else result[0]
 
-def read_fastq_file(input_fastq:str) -> dict[str, tuple[str, str]]:
-    if not os.path.exists(input_fastq):
-        raise SystemError("Error: File does not exist")
-    with open(input_fastq, "r") as fastq_file:
-        seqs = {}
-        one_seq = []
-        for fastq_seq in fastq_file:
-            if len(one_seq) < 5:
-                one_seq.append(fastq_seq.strip())
-            else:
-                seqs[one_seq[0]] = (one_seq[-2], one_seq[-1])
-                one_seq = []
-    return seqs
 
-def filter_fastq(
+def  main(
     input_fastq: str,
     output_fastq: str,
     gc_bounds: tuple | float = (0, 100),
     length_bounds: tuple | float = (0, 2 ** 32),
     quality_threshold: float = 0,
-) -> dict[str, tuple[str, str]]:
+) -> str:
     """The function takes a dictionary as input,
     where the key is the name of the reid,
     the value is the sequence of the reid and its quality.
@@ -79,8 +66,8 @@ def filter_fastq(
 
     :param input_fastq:
     :type input_fastq: str
-    :param seqs: a dictionary with the DNA sequence and its quality
-    :type seqs: dict[str, tuple[str, str]]
+    :param output_fastq:
+    :type output_fastq: str
     :param gc_bounds: threshold for filtering by gc-content
     :type gc_bounds: tuple | float
     :param length_bounds: length filtering threshold
@@ -91,16 +78,20 @@ def filter_fastq(
     :rtype: dict[str, tuple[str, str]]
     :return: dict with filtered reids
     """
-    seqs = read_fastq_file(input_fastq)
-    good_seqs = {}
-    for name_seq, seq_data in seqs.items():
-        seq, quality = seq_data
-        if all(
+    if not os.path.exists(input_fastq):
+        raise SystemError("Error: File does not exist")
+    with open(input_fastq, "r") as read_file, open(output_fastq, "w") as write_file:
+        while True: #читаем, пока не закончиться файл
+            seq_data = [read_file.readline().strip() for _ in range(4)]
+            if not seq_data:
+                break
+            name_seq, seq, comment, quality = seq_data #проверка на отсутствие 4 строк ????
+            if all(
             [
                 is_good_gc_content(seq, gc_bounds),
                 is_good_length(seq, length_bounds),
                 is_good_quality(quality, quality_threshold),
-            ]
-        ):
-            good_seqs[name_seq] = seq_data
-    return good_seqs
+             ]):
+                for line in seq_data:
+                    write_file.write(f"{line}\n")
+    return output_fastq
