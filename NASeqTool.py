@@ -50,7 +50,7 @@ def run_dna_rna_tools(*args: str) -> list[any] | str:
     return result if len(sequences) > 1 else result[0]
 
 
-def  main(
+def  filter_fasq(
     input_fastq: str,
     output_fastq: str,
     gc_bounds: tuple | float = (0, 100),
@@ -80,10 +80,13 @@ def  main(
     """
     if not os.path.exists(input_fastq):
         raise SystemError("Error: File does not exist")
-    with open(input_fastq, "r") as read_file, open(output_fastq, "w") as write_file:
+    if not os.path.isdir('filtered'):
+        os.makedirs('filtered')
+    output_path = os.path.join('filtered', output_fastq)
+    with open(input_fastq, "r") as read_file, open(output_path, "w") as write_file:
         while True: #читаем, пока не закончиться файл
             seq_data = [read_file.readline().strip() for _ in range(4)]
-            if not seq_data:
+            if not all(seq_data):
                 break
             name_seq, seq, comment, quality = seq_data #проверка на отсутствие 4 строк ????
             if all(
@@ -94,4 +97,5 @@ def  main(
              ]):
                 for line in seq_data:
                     write_file.write(f"{line}\n")
-    return output_fastq
+                seq_data =[]
+    return output_path
