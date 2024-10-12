@@ -1,5 +1,4 @@
 import os
-import re
 
 
 current_directory = os.getcwd()
@@ -47,6 +46,8 @@ def convert_multiline_fasta_to_oneline(input_fasta:str, output_fasta:str=None)->
     return output_fasta
 
 
+convert_multiline_fasta_to_oneline("example_multiline_fasta.fasta")
+
 def parse_blast_output(input_file:str, output_file:str=None)-> str:
     """The function takes a file or path to file as input,
     where the key is the name of the reid,
@@ -74,14 +75,13 @@ def parse_blast_output(input_file:str, output_file:str=None)-> str:
     if output_file is None:
         output_file = input_file.replace('.txt', '_out.txt')
     with open(os.path.join(current_directory, input_file), "r") as read_file, open(os.path.join("bio_files_output", output_file), "w") as write_file:
-        pattern = r'(\.\.\.| {4})\s*'
         protein = []
         while True:
             line = read_file.readline()
             if line.startswith("Sequences producing significant alignments:"):
                 line = read_file.readline(3)
                 while not line.startswith("Alignments"):
-                    line = re.split(pattern, line)
+                    line = line.strip().split("    ")
                     protein.append(line[0])
                     line = read_file.readline()
             if not line:  # Проверка на конец файла
@@ -129,13 +129,12 @@ def select_genes_from_gbk_to_fasta(input_gbk:str, genes:list, n_before:int=1, n_
                 break
             if line.strip().startswith("/gene"):
                 current_genes_position.append(read_file.tell())
-                name_gene = line.strip().split("=")[1]
-                right_gene= [gene in name_gene for gene in genes]
+                name_gene = line.strip().split("=")[1] #извлечение имени гена
+                right_gene= [gene in name_gene for gene in genes] #Проверка, есть ли такой ген в списке генов интереса
                 if any(right_gene):
                     current_position = read_file.tell()
-                    read_file.seek(current_genes_position[-(n_before+1)])
-                    line = read_file.readline()
-                    name_for_seq = line.strip().split("=")[1]
+                    read_file.seek(current_genes_position[-(n_before-)]) #перемещаемся назад
+                    name_for_seq = line.strip().split("=")[1]1
                     for seq in read_file:
                         if count >= n_before:
                             count = 0
@@ -151,12 +150,12 @@ def select_genes_from_gbk_to_fasta(input_gbk:str, genes:list, n_before:int=1, n_
                             write_file.write(f"{protein_seq_len}\n")
                             count += 1
                     read_file.seek(current_position)
-                    line = read_file.readline()
                     name_for_seq = line.strip().split("=")[1]
                     for seq in read_file:
                         if count >= n_after:
                             count = 0
-                            return output_fasta
+                            read_file.seek(current_position)
+                            break
                         if seq.strip().startswith("/gene"):
                             name_for_seq = seq.strip().split('=')[1]
                         if seq.strip().startswith("/translation"):
@@ -169,5 +168,5 @@ def select_genes_from_gbk_to_fasta(input_gbk:str, genes:list, n_before:int=1, n_
                             write_file.write(f">{name_for_seq}\n")
                             write_file.write(f"{protein_seq_len}\n")
                             count += 1
-
-select_genes_from_gbk_to_fasta("example_gbk (1).gbk", ["cydB"], 10, 20)
+        return output_fasta
+select_genes_from_gbk_to_fasta("ex_gbk.txt", ["dtpD"], 2, 1)
