@@ -77,7 +77,7 @@ The utility for analyzing sequencing data in fastq format. The filter_fastq_modu
 
 You will need:
 
-- Sequences organized in a dictionary with sequence id as the key and a tuple with the sequence and its quality in phred33 scale as the value.
+- File in fastq format.
 
 Example fastq file structure:
 
@@ -94,7 +94,7 @@ By default, the threshold values are defined from 0 to 2**32.
 - Sequence filtering with respect to sequence quality. Checks whether the quality on the phred33 scale is within the specified threshold values. The sequence quality is translated from phred33 scale to ASCII.
 By default, the threshold value is 0.
 
-The result of the program is a dictionary containing the name and nucleotide sequence that passed each of the three filters.
+The result of the program is an output_file containing only those reads that have passed each of the three filters.
 
 # NASeqTool_
 
@@ -181,7 +181,7 @@ git clone git@github.com:Valeriisht/NASeqTool.git
 
 Вам понадобятся:
 
-- Последовательности ридов, организованные в словарь, где в качестве ключа выступают id последовательности, а в качестве значения кортеж с самой последовательностью и качеством последовательности в шкале phred33.
+- Файл в формате fastq.
 
 Пример структуры fastq файла:
 
@@ -198,7 +198,7 @@ git clone git@github.com:Valeriisht/NASeqTool.git
 - Фильтрация последовательности относительно качества рида. Проверяется, соответствует ли качество рида по шкале phred33 заданным пороговому значению. Качество рида переводится из шкалы Phred33 в ASCII.
 По умолчанию пороговое значение равняется 0.
 
-Результатом работы программы является словарь, содержащий название и нуклеотидную последовательность ридов, прошедших каждую из трех фильтраций.
+Результатом работы программы является output_file, содержащий только те риды, прошедших каждую из трех фильтраций.
 
 
 
