@@ -34,7 +34,7 @@ def reverse_complement(seq: str) -> str:
     return complement(seq)[::-1]
 
 
-def gc_content(seq: str) -> float:
+def gc_content(seq: str) -> float | str:
     """Counts the GC content of the sequence \
      returns the percentage of GC nucleotides in the sequence"""
     count_g = seq.upper().count("G")
