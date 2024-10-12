@@ -57,7 +57,7 @@ def parse_blast_output(input_file:str, output_file:str=None):
     with open(os.path.join(current_directory, input_file), "r") as read_file, open(os.path.join("bio_files_output", output_file), "w") as write_file:
         protein = []
         flag_description_protein = False
-        for line in read_file:
+        for line in read_file: # Pull only the protein descriptions from the file
             if line.startswith("Sequences producing significant alignments:"):
                 flag_description_protein = True
             if line.startswith("Alignments"):
@@ -79,13 +79,12 @@ def parse_blast_output(input_file:str, output_file:str=None):
                     line = line.strip().split("....")[0]
                     protein.append(line)
         if protein:
-            protein = sorted(protein, key=str.lower)
+            protein = sorted(protein, key=str.lower) # Sort without case sensitivity
         for description in protein:
             if description and description != "\n":
                 write_file.write(f"{description}\n")
     return output_file
 
-parse_blast_output("example_blast_results.txt")
 
 
 
