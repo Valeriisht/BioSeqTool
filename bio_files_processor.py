@@ -1,31 +1,21 @@
 import os
-
+from itertools import count
+from pickle import FALSE
 
 current_directory = os.getcwd()
 if not os.path.isdir('bio_files_output'):
     os.makedirs("bio_files_output")
 
-def convert_multiline_fasta_to_oneline(input_fasta:str, output_fasta:str=None)-> str:
-    """ The function takes a file or path to file as input,
-    where the key is the name of the reid,
-    the value is the sequence of the reid and its quality.
-    Then it applies the function from filter_fastq_module to each reid.
-    As a result, it returns a dictionary of reids,
-    satisfying the specified threshold values for filtering.
+def convert_multiline_fasta_to_oneline(input_fasta:str, output_fasta:str=None):
+    """ The function takes as input a file or file path in .fasta format.
+    The output file is returned,
+    where multi-line protein sequences are converted into a single-line record.
 
-    :param input_fastq:
-    :type input_fastq: str
-    :param output_fastq:
-    :type output_fastq: str
-    :param gc_bounds: threshold for filtering by gc-content
-    :type gc_bounds: tuple | float
-    :param length_bounds: length filtering threshold
-    :type length_bounds:  tuple | float
-    :param quality_threshold: quality filtering threshold
-    :type quality_threshold: float
+    :param input_fasta:
+    :type input_fasta: str
+    :param output_fasta:
+    :type output_fasta: str
 
-    :rtype: str
-    :return: output_file
     """
     if not os.path.exists(input_fasta):
         raise SystemError("File does not exist")
@@ -48,27 +38,17 @@ def convert_multiline_fasta_to_oneline(input_fasta:str, output_fasta:str=None)->
 
 convert_multiline_fasta_to_oneline("example_multiline_fasta.fasta")
 
-def parse_blast_output(input_file:str, output_file:str=None)-> str:
-    """The function takes a file or path to file as input,
-    where the key is the name of the reid,
-    the value is the sequence of the reid and its quality.
-    Then it applies the function from filter_fastq_module to each reid.
-    As a result, it returns a dictionary of reids,
-    satisfying the specified threshold values for filtering.
+def parse_blast_output(input_file:str, output_file:str=None):
+    """The function takes as input a file or path to a .txt file
+    that is received after alignment in the blast program.
+    As a result of the function operation,
+    the description of the protein with the best database match is written to the output file.
 
-    :param input_fastq:
-    :type input_fastq: str
-    :param output_fastq:
-    :type output_fastq: str
-    :param gc_bounds: threshold for filtering by gc-content
-    :type gc_bounds: tuple | float
-    :param length_bounds: length filtering threshold
-    :type length_bounds:  tuple | float
-    :param quality_threshold: quality filtering threshold
-    :type quality_threshold: float
+    :param input_file:
+    :type input_file: str
+    :param output_file:
+    :type output_file: str
 
-    :rtype: str
-    :return: output_file
     """
     if not os.path.exists(input_file):
         raise SystemError("File does not exist")
@@ -76,97 +56,91 @@ def parse_blast_output(input_file:str, output_file:str=None)-> str:
         output_file = input_file.replace('.txt', '_out.txt')
     with open(os.path.join(current_directory, input_file), "r") as read_file, open(os.path.join("bio_files_output", output_file), "w") as write_file:
         protein = []
-        while True:
-            line = read_file.readline()
+        flag_description_protein = False
+        for line in read_file:
             if line.startswith("Sequences producing significant alignments:"):
-                line = read_file.readline(3)
-                while not line.startswith("Alignments"):
-                    line = line.strip().split("    ")
-                    protein.append(line[0])
-                    line = read_file.readline()
-            if not line:  # Проверка на конец файла
-                break
-        protein = sorted(protein)
+                flag_description_protein = True
+            if line.startswith("Alignments"):
+                flag_description_protein = False
+            if "    " in line and flag_description_protein and not line.strip().startswith("Description") and not line.strip().startswith("Scientific"):
+                line = line.strip().split("    ")[0]
+                protein.append(line)
+            if flag_description_protein and not line.strip().startswith("Description") and not line.strip().startswith("Scientific"):
+                if "]" in line:
+                    line = line.strip().split("]")[0]
+                    protein.append(line+"]")
+                elif "   " in line:
+                    line = line.strip().split("   ")[0]
+                    protein.append(line)
+                elif "..." in line:
+                    line = line.strip().split("...")[0]
+                    protein.append(line)
+                elif "...." in line:
+                    line = line.strip().split("....")[0]
+                    protein.append(line)
+        if protein:
+            protein = sorted(protein, key=str.lower)
         for description in protein:
             if description and description != "\n":
                 write_file.write(f"{description}\n")
     return output_file
 
+parse_blast_output("example_blast_results.txt")
 
 
-def select_genes_from_gbk_to_fasta(input_gbk:str, genes:list, n_before:int=1, n_after:int=1, output_fasta:str|None = None) -> str:
-    """The function takes a file or path to file as input,
-    where the key is the name of the reid,
-    the value is the sequence of the reid and its quality.
-    Then it applies the function from filter_fastq_module to each reid.
-    As a result, it returns a dictionary of reids,
-    satisfying the specified threshold values for filtering.
 
-    :param input_fastq:
-    :type input_fastq: str
-    :param output_fastq:
-    :type output_fastq: str
-    :param gc_bounds: threshold for filtering by gc-content
-    :type gc_bounds: tuple | float
-    :param length_bounds: length filtering threshold
-    :type length_bounds:  tuple | float
-    :param quality_threshold: quality filtering threshold
-    :type quality_threshold: float
+def select_genes_from_gbk_to_fasta(input_gbk:str, genes:list, n_before:int=1, n_after:int=1, output_fasta:str|None = None):
+    """The function takes as input a file or path to a file in .gbk format.
+    As a result of the function work, the genes (and their protein sequences) that are located
+    next to the genes of interest are written to the output file in .fasta format.
 
-    :rtype: str
-    :return: output_file
+    :param input_gbk:
+    :type input_gbk: str
+    :param output_fasta:
+    :type output_fasta: str
+    :param genes:
+    :type genes: list
+    :param n_before:
+    :type n_before: int
+    :param n_after:
+    :type n_after: int
+
     """
     if not os.path.exists(input_gbk):
         raise SystemError("File does not exist")
     if output_fasta is None:
         output_fasta = input_gbk.replace('.gbk', '_gbk.fasta')
-    with open(input_gbk, "r", encoding='gbk') as read_file, open(os.path.join("bio_files_output", output_fasta), "w") as write_file:
-        count = 0
-        current_genes_position = []
-        while True:
-            line = read_file.readline()
-            if not line:  #Проверка на конец файла
-                break
+    with open(input_gbk, "r", encoding="gbk") as read_file, open(os.path.join("bio_files_output", output_fasta), "w", encoding="utf-8") as write_file:
+        flag_found_gene = False
+        flag_protein_start = False
+        list_gene_protein = []
+        name_gene = ''
+        for line in read_file: # Pull only the genes and their protein sequence from the file
             if line.strip().startswith("/gene"):
-                current_genes_position.append(read_file.tell())
-                name_gene = line.strip().split("=")[1] #извлечение имени гена
-                right_gene= [gene in name_gene for gene in genes] #Проверка, есть ли такой ген в списке генов интереса
-                if any(right_gene):
-                    current_position = read_file.tell()
-                    read_file.seek(current_genes_position[-(n_before-)]) #перемещаемся назад
-                    name_for_seq = line.strip().split("=")[1]1
-                    for seq in read_file:
-                        if count >= n_before:
-                            count = 0
-                            break
-                        if seq.strip().startswith("/gene"):
-                            name_for_seq = seq.strip().split("=")[1]
-                        if seq.strip().startswith("/translation"):
-                            protein_seq_len = seq.strip().split("=")[1]
-                            while not seq.startswith("CDS"):
-                                seq = read_file.readline().strip()
-                                protein_seq_len += seq
-                            write_file.write(f">{name_for_seq}\n")
-                            write_file.write(f"{protein_seq_len}\n")
-                            count += 1
-                    read_file.seek(current_position)
-                    name_for_seq = line.strip().split("=")[1]
-                    for seq in read_file:
-                        if count >= n_after:
-                            count = 0
-                            read_file.seek(current_position)
-                            break
-                        if seq.strip().startswith("/gene"):
-                            name_for_seq = seq.strip().split('=')[1]
-                        if seq.strip().startswith("/translation"):
-                            protein_seq_len = seq.strip().split("=")[1]
-                            while not seq.startswith("CDS") :
-                                seq = read_file.readline().strip()
-                                if not seq:
-                                    break
-                                protein_seq_len += seq
-                            write_file.write(f">{name_for_seq}\n")
-                            write_file.write(f"{protein_seq_len}\n")
-                            count += 1
-        return output_fasta
-select_genes_from_gbk_to_fasta("ex_gbk.txt", ["dtpD"], 2, 1)
+                flag_found_gene = True
+                name_gene = line.strip('\\, \n,"').split('="')[1]
+            if line.strip().startswith("/translation") and flag_found_gene:
+                flag_protein_start = True
+                protein_seq_len = line.strip().split('="')[1]
+                line = read_file.readline()
+            if line.strip().startswith("CDS") and name_gene:
+                flag_found_gene = False
+                flag_protein_start = False
+                list_gene_protein.append(name_gene)
+                list_gene_protein.append(protein_seq_len)
+            if flag_found_gene and flag_protein_start:
+                protein_seq_len += line.strip()
+
+        def write_sequences(index:int, shift:int): # Function for writing sequences to file
+            for _ in range(n_before, 0, -1):
+                write_file.write(f">{list_gene_protein[index + shift]}\n")
+                write_file.write(f"{list_gene_protein[index +shift + 1]}\n")
+                index += shift
+
+        for name_gene in list_gene_protein:
+            for gene in genes:
+                if gene in name_gene:
+                    index = list_gene_protein.index(name_gene)
+                    write_sequences(index, -2)
+                    write_sequences(index, 2)
+
