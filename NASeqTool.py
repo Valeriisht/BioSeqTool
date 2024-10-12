@@ -50,14 +50,14 @@ def run_dna_rna_tools(*args: str) -> list[any] | str:
     return result if len(sequences) > 1 else result[0]
 
 
-def  filter_fasq(
+def  filter_fastq(
     input_fastq: str,
     output_fastq: str,
     gc_bounds: tuple | float = (0, 100),
     length_bounds: tuple | float = (0, 2 ** 32),
     quality_threshold: float = 0,
-) -> str:
-    """The function takes a dictionary as input,
+):
+    """The function takes a file or path to file as input,
     where the key is the name of the reid,
     the value is the sequence of the reid and its quality.
     Then it applies the function from filter_fastq_module to each reid.
@@ -75,8 +75,6 @@ def  filter_fasq(
     :param quality_threshold: quality filtering threshold
     :type quality_threshold: float
 
-    :rtype: dict[str, tuple[str, str]]
-    :return: dict with filtered reids
     """
     if not os.path.exists(input_fastq):
         raise SystemError("Error: File does not exist")
@@ -84,18 +82,21 @@ def  filter_fasq(
         os.makedirs('filtered')
     output_path = os.path.join('filtered', output_fastq)
     with open(input_fastq, "r") as read_file, open(output_path, "w") as write_file:
-        while True: #читаем, пока не закончиться файл
-            seq_data = [read_file.readline().strip() for _ in range(4)]
-            if not all(seq_data):
-                break
-            name_seq, seq, comment, quality = seq_data #проверка на отсутствие 4 строк ????
-            if all(
-            [
-                is_good_gc_content(seq, gc_bounds),
-                is_good_length(seq, length_bounds),
-                is_good_quality(quality, quality_threshold),
-             ]):
-                for line in seq_data:
-                    write_file.write(f"{line}\n")
-                seq_data =[]
-    return output_path
+        seq_data = []
+        count = 0
+        for line in read_file:
+            if count != 4:
+                seq_data.append(line.strip())
+                count += 1
+            if len(seq_data) == 4 and seq_data[0].startswith(">"):
+                name_seq, seq, comment, quality = seq_data
+                if all(
+                        [
+                            is_good_gc_content(seq, gc_bounds),
+                            is_good_length(seq, length_bounds),
+                            is_good_quality(quality, quality_threshold),
+                        ]):
+                    for sequence in seq_data:
+                        write_file.write(f"{sequence}\n")
+                    seq_data = []
+                    count = 0
