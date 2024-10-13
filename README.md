@@ -21,7 +21,9 @@ git clone git@github.com:Valeriisht/NASeqTool.git
 
 The repository structure is structured as the main folder with the master NASeqTool script, where the basic functions are declared, and the subfolder functions with imported modules.
 
-<img width="330" alt="Rep Structure" src="https://github.com/user-attachments/assets/96110d54-b81e-438f-affc-dd1bdefd857f">
+<img width="400" alt="Rep Structure" src="https://github.com/user-attachments/assets/710383e6-8bbc-4b31-bc2e-e966fca2a58b">
+
+
 
 
 The utility was designed to run on Python version 3.10 or newer.
@@ -153,7 +155,7 @@ git clone git@github.com:Valeriisht/NASeqTool.git
 
 Структура репозитория имеет следующий вид: корневая папка с главным скриптом NASeqTool, где объявлены основные функции, и подпапка functions с импортируемыми модулями.
 
-<img width="330" alt="Rep Structure" src="https://github.com/user-attachments/assets/196208c1-80eb-4ae8-b73a-57a143d88fea">
+<img width="400" alt="Rep Structure" src="https://github.com/user-attachments/assets/710383e6-8bbc-4b31-bc2e-e966fca2a58b">
 
 
 Утилита была разработана для работы на версии Python3.10 или новее.
