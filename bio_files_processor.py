@@ -59,7 +59,8 @@ def parse_blast_output(input_file: str, output_file: str = None):
     ):
         protein = []
         flag_description_protein = False
-        for line in read_file:  # Pull only the protein descriptions from the file
+        for line in read_file:
+            # Pull only the protein descriptions from the file
             if line.startswith("Sequences producing significant alignments:"):
                 flag_description_protein = True
             if line.startswith("Alignments"):
@@ -90,7 +91,8 @@ def parse_blast_output(input_file: str, output_file: str = None):
                     line = line.strip().split("....")[0]
                     protein.append(line)
         if protein:
-            protein = sorted(protein, key=str.lower)  # Sort without case sensitivity
+            protein = sorted(protein, key=str.lower)
+            # Sort without case sensitivity
         for description in protein:
             if description and description != "\n":
                 write_file.write(f"{description}\n")
@@ -105,9 +107,10 @@ def select_genes_from_gbk_to_fasta(
     output_fasta: str | None = None,
 ):
     """The function takes as input a file or path to a file in .gbk format.
-    As a result of the function work,
-    the genes (and their protein sequences) that are located
-    next to the genes of interest are written to the output file in .fasta format.
+    As a result of the function work, the genes
+    (and their protein sequences) that are located
+    next to the genes of interest are written
+     to the output file in .fasta format.
 
     :param input_gbk: input_file .gbk format
     :type input_gbk: str
@@ -132,9 +135,8 @@ def select_genes_from_gbk_to_fasta(
         flag_protein_start = False
         list_gene_protein = []
         name_gene = ""
-        for (
-            line
-        ) in read_file:  # Pull only the genes and their protein sequence from the file
+        for line in read_file:
+            # Pull only the genes and their protein sequence from the file
             if line.strip().startswith("/gene"):
                 flag_found_gene = True
                 name_gene = line.strip('\\, \n,"').split('="')[1]
