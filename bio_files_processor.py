@@ -19,7 +19,7 @@ def convert_multiline_fasta_to_oneline(input_fasta: str, output_fasta: str = Non
     if not os.path.exists(input_fasta):
         raise SystemError("File does not exist")
     if output_fasta is None:
-        output_fasta = "multiline_fasta_output.fasta" # Create a new file
+        output_fasta = "multiline_fasta_output.fasta"  # Create a new file
     with open(input_fasta, "r") as read_file, open(
         os.path.join("bio_files_output", output_fasta), "w"
     ) as write_file:

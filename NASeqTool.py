@@ -101,5 +101,3 @@ def filter_fastq(
                         write_file.write(f"{sequence}\n")
                     seq_data = []
                     count = 0
-
-
