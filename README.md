@@ -109,7 +109,7 @@ You will need:
 
 - A .fasta file for the convert_multiline_fasta_to_oneline function.
 - A .txt file for the parse_blast_output function.
-- A .gnk file for the select_genes_from_gbk_to_fasta function.
+- A .gbk file for the select_genes_from_gbk_to_fasta function.
 
 ### The utility performs the following actions:
 
@@ -247,7 +247,7 @@ git clone git@github.com:Valeriisht/NASeqTool.git
 
 - Файл в формата .fasta для функции convert_multiline_fasta_to_oneline.
 -  Файл в формата .txt для функции parse_blast_output.
-- Файл в формата .gnk для функции select_genes_from_gbk_to_fasta.
+- Файл в формата .gbk для функции select_genes_from_gbk_to_fasta.
 
 ### Утилита выполняет следующие действия:
 
