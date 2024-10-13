@@ -25,3 +25,4 @@ def is_good_quality(quality: str, quality_threshold: float) -> bool | None:
         return
     quality_transform = [ord(quality) - 33 for quality in quality.upper()]
     return sum(quality_transform) / len(quality_transform) >= quality_threshold
+
