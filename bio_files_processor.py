@@ -10,9 +10,9 @@ def convert_multiline_fasta_to_oneline(input_fasta: str, output_fasta: str = Non
     The output file is returned,
     where multi-line protein sequences are converted into a single-line record.
 
-    :param input_fasta:
+    :param input_fasta: input_file .fasta format
     :type input_fasta: str
-    :param output_fasta:
+    :param output_fasta: output_file .fasta format
     :type output_fasta: str
 
     """
@@ -43,18 +43,18 @@ def parse_blast_output(input_file: str, output_file: str = None):
     the description of the protein with
     the best database match is written to the output file.
 
-    :param input_file:
+    :param input_file: input_file .txt format
     :type input_file: str
-    :param output_file:
+    :param output_file: output_file .txt format
     :type output_file: str
 
     """
     if not os.path.exists(input_file):
         raise SystemError("File does not exist")
     if output_file is None:
-        output_file = input_file.replace(".txt", "_out.txt")
+        output_file = "parse_blast_output.txt"
     with (
-        open(os.path.join(current_directory, input_file), "r") as read_file,
+        open(input_file, "r") as read_file,
         open(os.path.join("bio_files_output", output_file), "w") as write_file,
     ):
         protein = []
@@ -109,22 +109,22 @@ def select_genes_from_gbk_to_fasta(
     the genes (and their protein sequences) that are located
     next to the genes of interest are written to the output file in .fasta format.
 
-    :param input_gbk:
+    :param input_gbk: input_file .gbk format
     :type input_gbk: str
-    :param output_fasta:
+    :param output_fasta: output_file .fasta format
     :type output_fasta: str
-    :param genes:
+    :param genes: genes of interest
     :type genes: list
-    :param n_before:
+    :param n_before: number
     :type n_before: int
-    :param n_after:
+    :param n_after: number
     :type n_after: int
 
     """
     if not os.path.exists(input_gbk):
         raise SystemError("File does not exist")
     if output_fasta is None:
-        output_fasta = input_gbk.replace(".gbk", "_gbk.fasta")
+        output_fasta = "select_genes_from_gbk_to_fasta_output.fasta"
     with open(input_gbk, "r", encoding="gbk") as read_file, open(
         os.path.join("bio_files_output", output_fasta), "w", encoding="utf-8"
     ) as write_file:
