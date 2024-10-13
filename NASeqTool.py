@@ -92,14 +92,14 @@ def filter_fastq(
             if len(seq_data) == 4 and seq_data[0].startswith("@"):
                 name_seq, seq, comment, quality = seq_data
                 filters = [
-                        is_good_gc_content(seq, gc_bounds),
-                        is_good_length(seq, length_bounds),
-                        is_good_quality(quality, quality_threshold),
-                    ]
+                    is_good_gc_content(seq, gc_bounds),
+                    is_good_length(seq, length_bounds),
+                    is_good_quality(quality, quality_threshold),
+                ]
                 if all(filters):
                     for sequence in seq_data:
                         write_file.write(f"{sequence}\n")
                     seq_data = []
                     count = 0
 
-filter_fastq("C:\\Users\\valer\\OneDrive\\Desktop\\example_fastq.fastq", "filter_fastq_output.fastq", length_bounds=(3, 1000000), quality_threshold=30)
+
