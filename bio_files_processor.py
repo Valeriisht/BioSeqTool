@@ -19,9 +19,7 @@ def convert_multiline_fasta_to_oneline(input_fasta: str, output_fasta: str = Non
     if not os.path.exists(input_fasta):
         raise SystemError("File does not exist")
     if output_fasta is None:
-        output_fasta = input_fasta.replace(
-            ".fasta", "_out.fasta"
-        )  # Create a name based on the original file
+        output_fasta = "multiline_fasta_output.fasta" # Create a new file
     with open(input_fasta, "r") as read_file, open(
         os.path.join("bio_files_output", output_fasta), "w"
     ) as write_file:
@@ -36,7 +34,6 @@ def convert_multiline_fasta_to_oneline(input_fasta: str, output_fasta: str = Non
                 multi_line += line.strip()
         if multi_line:
             write_file.write(f"{multi_line}\n")
-    return output_fasta
 
 
 def parse_blast_output(input_file: str, output_file: str = None):
