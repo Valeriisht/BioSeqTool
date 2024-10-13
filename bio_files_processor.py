@@ -1,13 +1,12 @@
 import os
-from itertools import count
-from pickle import FALSE
 
-current_directory = os.getcwd()
-if not os.path.isdir('bio_files_output'):
+
+if not os.path.isdir("bio_files_output"):
     os.makedirs("bio_files_output")
 
-def convert_multiline_fasta_to_oneline(input_fasta:str, output_fasta:str=None):
-    """ The function takes as input a file or file path in .fasta format.
+
+def convert_multiline_fasta_to_oneline(input_fasta: str, output_fasta: str = None):
+    """The function takes as input a file or file path in .fasta format.
     The output file is returned,
     where multi-line protein sequences are converted into a single-line record.
 
@@ -20,8 +19,12 @@ def convert_multiline_fasta_to_oneline(input_fasta:str, output_fasta:str=None):
     if not os.path.exists(input_fasta):
         raise SystemError("File does not exist")
     if output_fasta is None:
-        output_fasta = input_fasta.replace('.fasta', '_out.fasta') #создаем на основе старого файла
-    with open(input_fasta, "r") as read_file, open(os.path.join("bio_files_output", output_fasta), "w") as write_file:
+        output_fasta = input_fasta.replace(
+            ".fasta", "_out.fasta"
+        )  # Create a name based on the original file
+    with open(input_fasta, "r") as read_file, open(
+        os.path.join("bio_files_output", output_fasta), "w"
+    ) as write_file:
         multi_line = ""
         for line in read_file:
             if line.strip().startswith(">"):
@@ -36,13 +39,12 @@ def convert_multiline_fasta_to_oneline(input_fasta:str, output_fasta:str=None):
     return output_fasta
 
 
-convert_multiline_fasta_to_oneline("example_multiline_fasta.fasta")
-
-def parse_blast_output(input_file:str, output_file:str=None):
+def parse_blast_output(input_file: str, output_file: str = None):
     """The function takes as input a file or path to a .txt file
     that is received after alignment in the blast program.
     As a result of the function operation,
-    the description of the protein with the best database match is written to the output file.
+    the description of the protein with
+    the best database match is written to the output file.
 
     :param input_file:
     :type input_file: str
@@ -53,22 +55,34 @@ def parse_blast_output(input_file:str, output_file:str=None):
     if not os.path.exists(input_file):
         raise SystemError("File does not exist")
     if output_file is None:
-        output_file = input_file.replace('.txt', '_out.txt')
-    with open(os.path.join(current_directory, input_file), "r") as read_file, open(os.path.join("bio_files_output", output_file), "w") as write_file:
+        output_file = input_file.replace(".txt", "_out.txt")
+    with (
+        open(os.path.join(current_directory, input_file), "r") as read_file,
+        open(os.path.join("bio_files_output", output_file), "w") as write_file,
+    ):
         protein = []
         flag_description_protein = False
-        for line in read_file: # Pull only the protein descriptions from the file
+        for line in read_file:  # Pull only the protein descriptions from the file
             if line.startswith("Sequences producing significant alignments:"):
                 flag_description_protein = True
             if line.startswith("Alignments"):
                 flag_description_protein = False
-            if "    " in line and flag_description_protein and not line.strip().startswith("Description") and not line.strip().startswith("Scientific"):
+            if (
+                "    " in line
+                and flag_description_protein
+                and not line.strip().startswith("Description")
+                and not line.strip().startswith("Scientific")
+            ):
                 line = line.strip().split("    ")[0]
                 protein.append(line)
-            if flag_description_protein and not line.strip().startswith("Description") and not line.strip().startswith("Scientific"):
+            if (
+                flag_description_protein
+                and not line.strip().startswith("Description")
+                and not line.strip().startswith("Scientific")
+            ):
                 if "]" in line:
                     line = line.strip().split("]")[0]
-                    protein.append(line+"]")
+                    protein.append(line + "]")
                 elif "   " in line:
                     line = line.strip().split("   ")[0]
                     protein.append(line)
@@ -79,18 +93,23 @@ def parse_blast_output(input_file:str, output_file:str=None):
                     line = line.strip().split("....")[0]
                     protein.append(line)
         if protein:
-            protein = sorted(protein, key=str.lower) # Sort without case sensitivity
+            protein = sorted(protein, key=str.lower)  # Sort without case sensitivity
         for description in protein:
             if description and description != "\n":
                 write_file.write(f"{description}\n")
     return output_file
 
 
-
-
-def select_genes_from_gbk_to_fasta(input_gbk:str, genes:list, n_before:int=1, n_after:int=1, output_fasta:str|None = None):
+def select_genes_from_gbk_to_fasta(
+    input_gbk: str,
+    genes: list,
+    n_before: int = 1,
+    n_after: int = 1,
+    output_fasta: str | None = None,
+):
     """The function takes as input a file or path to a file in .gbk format.
-    As a result of the function work, the genes (and their protein sequences) that are located
+    As a result of the function work,
+    the genes (and their protein sequences) that are located
     next to the genes of interest are written to the output file in .fasta format.
 
     :param input_gbk:
@@ -108,13 +127,17 @@ def select_genes_from_gbk_to_fasta(input_gbk:str, genes:list, n_before:int=1, n_
     if not os.path.exists(input_gbk):
         raise SystemError("File does not exist")
     if output_fasta is None:
-        output_fasta = input_gbk.replace('.gbk', '_gbk.fasta')
-    with open(input_gbk, "r", encoding="gbk") as read_file, open(os.path.join("bio_files_output", output_fasta), "w", encoding="utf-8") as write_file:
+        output_fasta = input_gbk.replace(".gbk", "_gbk.fasta")
+    with open(input_gbk, "r", encoding="gbk") as read_file, open(
+        os.path.join("bio_files_output", output_fasta), "w", encoding="utf-8"
+    ) as write_file:
         flag_found_gene = False
         flag_protein_start = False
         list_gene_protein = []
-        name_gene = ''
-        for line in read_file: # Pull only the genes and their protein sequence from the file
+        name_gene = ""
+        for (
+            line
+        ) in read_file:  # Pull only the genes and their protein sequence from the file
             if line.strip().startswith("/gene"):
                 flag_found_gene = True
                 name_gene = line.strip('\\, \n,"').split('="')[1]
@@ -130,7 +153,9 @@ def select_genes_from_gbk_to_fasta(input_gbk:str, genes:list, n_before:int=1, n_
             if flag_found_gene and flag_protein_start:
                 protein_seq_len += line.strip()
 
-        def write_sequences(index:int, shift:int): # Function for writing sequences to file
+        def write_sequences(
+            index: int, shift: int
+        ):  # Function for writing sequences to file
             for _ in range(n_before, 0, -1):
                 write_file.write(f">{list_gene_protein[index + shift]}\n")
                 write_file.write(f"{list_gene_protein[index +shift + 1]}\n")
@@ -139,7 +164,6 @@ def select_genes_from_gbk_to_fasta(input_gbk:str, genes:list, n_before:int=1, n_
         for name_gene in list_gene_protein:
             for gene in genes:
                 if gene in name_gene:
-                    index = list_gene_protein.index(name_gene)
-                    write_sequences(index, -2)
-                    write_sequences(index, 2)
-
+                    index_gene = list_gene_protein.index(name_gene)
+                    write_sequences(index_gene, -2)
+                    write_sequences(index_gene, 2)
