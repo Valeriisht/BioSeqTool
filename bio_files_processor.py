@@ -103,7 +103,7 @@ def select_genes_from_gbk_to_fasta(
     genes: list,
     n_before: int = 1,
     n_after: int = 1,
-    output_fasta: str | None = None,
+    output_fasta: str = None
 ):
     """The function takes as input a file or path to a file in .gbk format.
     As a result of the function work, the genes
