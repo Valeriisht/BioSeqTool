@@ -69,6 +69,7 @@ def parse_blast_output(input_file: str, output_file: str = None):
                 flag_description_protein
                 and not line.strip().startswith("Description")
                 and not line.strip().startswith("Scientific")
+                and not line.strip().startswith("Sequences producing significant alignments")
             ):
                 if "    " in line:
                     line = line.strip().split("    ")[0]
