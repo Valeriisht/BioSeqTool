@@ -84,7 +84,7 @@ You will need:
 
 Example fastq file structure:
 
-![img.png](img.png)
+![image](https://github.com/user-attachments/assets/4c588d9b-6591-4adf-9ac7-85be25844346)
 
 ### The utility performs the steps below:
 
@@ -221,7 +221,7 @@ git clone git@github.com:Valeriisht/NASeqTool.git
 
 Пример структуры fastq файла:
 
-![img.png](img.png)
+![image](https://github.com/user-attachments/assets/3cbf162c-ddb6-4b33-b8c5-4747d5873ebc)
 
 ### Утилита выполняет следующие действия:
 
