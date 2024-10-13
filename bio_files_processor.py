@@ -66,29 +66,21 @@ def parse_blast_output(input_file: str, output_file: str = None):
             if line.startswith("Alignments"):
                 flag_description_protein = False
             if (
-                "    " in line
-                and flag_description_protein
-                and not line.strip().startswith("Description")
-                and not line.strip().startswith("Scientific")
-            ):
-                line = line.strip().split("    ")[0]
-                protein_description.append(line)
-            if (
                 flag_description_protein
                 and not line.strip().startswith("Description")
                 and not line.strip().startswith("Scientific")
             ):
-                if "]" in line:
-                    line = line.strip().split("]")[0]
-                    protein_description.append(line + "]")
+                if "    " in line:
+                    line = line.strip().split("    ")[0]
+                elif "]" in line:
+                    line = line.strip().split("]")[0] + "]"
                 elif "   " in line:
                     line = line.strip().split("   ")[0]
-                    protein_description.append(line)
                 elif "..." in line:
                     line = line.strip().split("...")[0]
-                    protein_description.append(line)
                 elif "...." in line:
                     line = line.strip().split("....")[0]
+                if line:
                     protein_description.append(line)
         if protein_description:
             protein_description = sorted(protein_description, key=str.lower)
