@@ -29,6 +29,7 @@ The utility was designed to run on Python version 3.10 or newer.
 - ### NASeqTool
     - [**run_dna_rna_tools**](#run_dna_rna_tools)
     - [**filter_fastq_tool**](#filter_fastq_tool)
+    - [**bio_files_processor**](#bio_files_processor)
 
 ## run_dna_rna_tools
 
@@ -77,7 +78,7 @@ The utility for analyzing sequencing data in fastq format. The filter_fastq_modu
 
 You will need:
 
-- Sequences organized in a dictionary with sequence id as the key and a tuple with the sequence and its quality in phred33 scale as the value.
+- File in fastq format.
 
 Example fastq file structure:
 
@@ -94,7 +95,39 @@ By default, the threshold values are defined from 0 to 2**32.
 - Sequence filtering with respect to sequence quality. Checks whether the quality on the phred33 scale is within the specified threshold values. The sequence quality is translated from phred33 scale to ASCII.
 By default, the threshold value is 0.
 
-The result of the program is a dictionary containing the name and nucleotide sequence that passed each of the three filters.
+The result of the program is an output_file containing only those reads that have passed each of the three filters.
+
+## bio_files_processor
+
+This utility is located in the root of the repository and is designed to work with large .gbk, .fasta, .txt files.
+
+#### Usage
+
+You will need:
+
+- A .fasta file for the convert_multiline_fasta_to_oneline function.
+- A .txt file for the parse_blast_output function.
+- A .gnk file for the select_genes_from_gbk_to_fasta function.
+
+### The utility performs the following actions:
+
+- ### Function ```convert_multiline_fasta_to_oneline```
+
+Converts fasta format from multiline to single line format
+
+The function accepts 2 arguments (input_fasta and output_fasta - the default parameter). Reads the input fasta file, saves it to a new fasta file where each sequence is written to a single line. 
+
+- ### Function ```parse_blast_output```
+
+Parses the file resulting after alignment in the Blast program. Pulling the name of the best match with the database and saving the results in a single file.
+
+The function takes 2 arguments (input_file, output_file) as input. The program reads the given txt file, for each QUERY best match against the base on the first line from the Description column. The set of obtained proteins is saved to a new file with one column sorted alphabetically.
+
+- ### Function ```select_genes_from_gbk_to_fasta```
+
+Detect a certain number of genes before and after each gene of interest and save their protein sequence into a new fasta file. The fasta-file can be sent to the input of BLAST explicitly. 
+
+The function takes as input input_gbk (path to the input GBK file), genes (genes of interest near which neighbors are searched), n_before, n_after (number of genes before and after (>=1)), output_fasta (name of the output file).
 
 # NASeqTool_
 
@@ -130,6 +163,7 @@ git clone git@github.com:Valeriisht/NASeqTool.git
 - ### NASeqTool
     - [**run_dna_rna_tools**](#run_dna_rna_tools_)
     - [**filter_fastq_tool**](#filter_fastq_tool_)
+    - [**bio_files_processor**](#bio_files_processor_)
 
       
 
@@ -181,7 +215,7 @@ git clone git@github.com:Valeriisht/NASeqTool.git
 
 Вам понадобятся:
 
-- Последовательности ридов, организованные в словарь, где в качестве ключа выступают id последовательности, а в качестве значения кортеж с самой последовательностью и качеством последовательности в шкале phred33.
+- Файл в формате fastq.
 
 Пример структуры fastq файла:
 
@@ -198,7 +232,43 @@ git clone git@github.com:Valeriisht/NASeqTool.git
 - Фильтрация последовательности относительно качества рида. Проверяется, соответствует ли качество рида по шкале phred33 заданным пороговому значению. Качество рида переводится из шкалы Phred33 в ASCII.
 По умолчанию пороговое значение равняется 0.
 
-Результатом работы программы является словарь, содержащий название и нуклеотидную последовательность ридов, прошедших каждую из трех фильтраций.
+Результатом работы программы является output_file, содержащий только те риды, прошедших каждую из трех фильтраций.
+
+
+## bio_files_processor_
+
+Утилита находится в корне репозитория и расчитана на работу с большими файлами формата .gbk, .fasta, .txt.
+
+### Использование
+
+Вам понадобятся:
+
+- Файл в формата .fasta для функции convert_multiline_fasta_to_oneline.
+-  Файл в формата .txt для функции parse_blast_output.
+- Файл в формата .gnk для функции select_genes_from_gbk_to_fasta.
+
+### Утилита выполняет следующие действия:
+
+- ### Функция ```convert_multiline_fasta_to_oneline```
+
+Преобразование формата fasta формата из много строчного в однострочный
+
+Функция принимает на вход 2 аргумента (input_fasta и output_fasta - параметр хадан по умолчанию). Читает поданный на вход fasta-файл, сохраняет в новый fasta-файл, в котором каждая последовательность записана в одну строку. 
+
+- ### Функция ```parse_blast_output```
+
+Парсинг файла, полученного после выравнивания в программе Blast. Вытаскивание названия наилучшего совпадения с базой и сохранение  результатов в одном файле.
+
+Функция принимает на вход 2 аргумента (input_file, output_file). Программа читает заданный txt файл, для каждого запроса QUERY наилучшее совпадение по базе по первой строке из столбца Description. Набор полученных белков сохраняется в новый файл одним столбцом отсортированным по алфавиту.
+
+- ### Функция ```select_genes_from_gbk_to_fasta```
+
+Обнаружение определненного количества генов до и после каждого из гена интереса и сохранение их белковой последовательности  в новый fasta-файл. Fasta-файл может быть отправлен прямо в явном виде на вход BLAST. 
+
+Функция ринимает на вход  input_gbk (путь до входного GBK файла), genes (гены интереса, рядом с которыми ищутся соседи), n_before, n_after (количество генов до и послe (>=1)), output_fasta (название выходного файла).
+
+
+
 
 
 
