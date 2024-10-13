@@ -35,7 +35,7 @@ The utility was designed to run on Python version 3.10 or newer.
 
 ## run_dna_rna_tools
 
-A utility for manipulating DNA/RNA molecules. The run_dna_rna_tool_module.py module is loaded when the script is executed.
+A utility for manipulating DNA/RNA molecules. The run_dna_rna_tool_module.py module is loaded when the script is executed. It is located in the NASeqTool.py script.
 
 
 
@@ -74,7 +74,7 @@ Determines the length of the CDS coding sequence.
 
 ## filter_fastq_tool
 
-The utility for analyzing sequencing data in fastq format. The filter_fastq_module.py module is loaded when the script is executed.
+The utility for analyzing sequencing data in fastq format. The filter_fastq_module.py module is loaded when the script is executed.It is located in the NASeqTool.py script.
 
 ### Usage
 
@@ -172,7 +172,7 @@ git clone git@github.com:Valeriisht/NASeqTool.git
 
 ## run_dna_rna_tools_
 
-Утилита для манипуляции с молекулами ДНК/РНК. При исполнении скрипта подгружается модуль run_dna_rna_tool_module.py.
+Утилита для манипуляции с молекулами ДНК/РНК. При исполнении скрипта подгружается модуль run_dna_rna_tool_module.py. Находится в скрипте NASeqTool.py
 
 
 
@@ -211,7 +211,7 @@ git clone git@github.com:Valeriisht/NASeqTool.git
 
 ## filter_fastq_tool_
 
-Утилита для обработки данных секвенирования в формате fastq. При исполнении скрипта подгружается модуль filter_fastq_module.py.
+Утилита для обработки данных секвенирования в формате fastq. При исполнении скрипта подгружается модуль filter_fastq_module.py. Находится в скрипте NASeqTool.py
 
 ### Использование
 
