@@ -57,7 +57,7 @@ def parse_blast_output(input_file: str, output_file: str = None):
         open(input_file, "r") as read_file,
         open(os.path.join("bio_files_output", output_file), "w") as write_file,
     ):
-        protein = []
+        protein_description = []
         flag_description_protein = False
         for line in read_file:
             # Pull only the protein descriptions from the file
@@ -72,7 +72,7 @@ def parse_blast_output(input_file: str, output_file: str = None):
                 and not line.strip().startswith("Scientific")
             ):
                 line = line.strip().split("    ")[0]
-                protein.append(line)
+                protein_description.append(line)
             if (
                 flag_description_protein
                 and not line.strip().startswith("Description")
@@ -80,23 +80,22 @@ def parse_blast_output(input_file: str, output_file: str = None):
             ):
                 if "]" in line:
                     line = line.strip().split("]")[0]
-                    protein.append(line + "]")
+                    protein_description.append(line + "]")
                 elif "   " in line:
                     line = line.strip().split("   ")[0]
-                    protein.append(line)
+                    protein_description.append(line)
                 elif "..." in line:
                     line = line.strip().split("...")[0]
-                    protein.append(line)
+                    protein_description.append(line)
                 elif "...." in line:
                     line = line.strip().split("....")[0]
-                    protein.append(line)
-        if protein:
-            protein = sorted(protein, key=str.lower)
+                    protein_description.append(line)
+        if protein_description:
+            protein_description = sorted(protein_description, key=str.lower)
             # Sort without case sensitivity
-        for description in protein:
+        for description in protein_description:
             if description and description != "\n":
                 write_file.write(f"{description}\n")
-    return output_file
 
 
 def select_genes_from_gbk_to_fasta(
