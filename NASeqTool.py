@@ -102,4 +102,4 @@ def filter_fastq(
                     seq_data = []
                     count = 0
 
-filter_fastq("C:\\Users\\valer\\OneDrive\\Desktop\\example_fastq.fastq", "filter_fastq_output.fastq", length_bounds=(3, 1000000), quality_threshold=33)
+filter_fastq("C:\\Users\\valer\\OneDrive\\Desktop\\example_fastq.fastq", "filter_fastq_output.fastq", length_bounds=(3, 1000000), quality_threshold=30)
