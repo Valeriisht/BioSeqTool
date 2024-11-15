@@ -15,14 +15,14 @@ def is_good_length(seq: str, length_bounds: tuple | float) -> bool:
      is within the threshold values."""
     length_lower, length_upper = length_bounds\
         if isinstance(length_bounds, tuple) else (0, length_bounds)
-
     return length_lower <= len(seq) <= length_upper
 
 
-def is_good_quality(quality: str, quality_threshold: float) -> bool:
+def is_good_quality(quality: str, quality_threshold: float) -> bool | None:
     """Checks to ensure that the reid quality
      on the phred33 scale is within the threshold values."""
     if not quality:
-        raise ValueError("Quality must be not empty")
+        return
     quality_transform = [ord(quality) - 33 for quality in quality.upper()]
     return sum(quality_transform) / len(quality_transform) >= quality_threshold
+

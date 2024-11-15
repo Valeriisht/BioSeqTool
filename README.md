@@ -21,7 +21,9 @@ git clone git@github.com:Valeriisht/NASeqTool.git
 
 The repository structure is structured as the main folder with the master NASeqTool script, where the basic functions are declared, and the subfolder functions with imported modules.
 
-<img width="330" alt="Rep Structure" src="https://github.com/user-attachments/assets/96110d54-b81e-438f-affc-dd1bdefd857f">
+<img width="400" alt="Rep Structure" src="https://github.com/user-attachments/assets/710383e6-8bbc-4b31-bc2e-e966fca2a58b">
+
+
 
 
 The utility was designed to run on Python version 3.10 or newer.
@@ -33,7 +35,7 @@ The utility was designed to run on Python version 3.10 or newer.
 
 ## run_dna_rna_tools
 
-A utility for manipulating DNA/RNA molecules. The run_dna_rna_tool_module.py module is loaded when the script is executed.
+A utility for manipulating DNA/RNA molecules. The run_dna_rna_tool_module.py module is loaded when the script is executed. It is located in the NASeqTool.py script.
 
 
 
@@ -72,7 +74,7 @@ Determines the length of the CDS coding sequence.
 
 ## filter_fastq_tool
 
-The utility for analyzing sequencing data in fastq format. The filter_fastq_module.py module is loaded when the script is executed.
+The utility for analyzing sequencing data in fastq format. The filter_fastq_module.py module is loaded when the script is executed.It is located in the NASeqTool.py script.
 
 ### Usage
 
@@ -82,7 +84,7 @@ You will need:
 
 Example fastq file structure:
 
-![img.png](img.png)
+![image](https://github.com/user-attachments/assets/4c588d9b-6591-4adf-9ac7-85be25844346)
 
 ### The utility performs the steps below:
 
@@ -107,7 +109,7 @@ You will need:
 
 - A .fasta file for the convert_multiline_fasta_to_oneline function.
 - A .txt file for the parse_blast_output function.
-- A .gnk file for the select_genes_from_gbk_to_fasta function.
+- A .gbk file for the select_genes_from_gbk_to_fasta function.
 
 ### The utility performs the following actions:
 
@@ -153,7 +155,7 @@ git clone git@github.com:Valeriisht/NASeqTool.git
 
 Структура репозитория имеет следующий вид: корневая папка с главным скриптом NASeqTool, где объявлены основные функции, и подпапка functions с импортируемыми модулями.
 
-<img width="330" alt="Rep Structure" src="https://github.com/user-attachments/assets/196208c1-80eb-4ae8-b73a-57a143d88fea">
+<img width="400" alt="Rep Structure" src="https://github.com/user-attachments/assets/710383e6-8bbc-4b31-bc2e-e966fca2a58b">
 
 
 Утилита была разработана для работы на версии Python3.10 или новее.
@@ -170,7 +172,7 @@ git clone git@github.com:Valeriisht/NASeqTool.git
 
 ## run_dna_rna_tools_
 
-Утилита для манипуляции с молекулами ДНК/РНК. При исполнении скрипта подгружается модуль run_dna_rna_tool_module.py.
+Утилита для манипуляции с молекулами ДНК/РНК. При исполнении скрипта подгружается модуль run_dna_rna_tool_module.py. Находится в скрипте NASeqTool.py
 
 
 
@@ -209,7 +211,7 @@ git clone git@github.com:Valeriisht/NASeqTool.git
 
 ## filter_fastq_tool_
 
-Утилита для обработки данных секвенирования в формате fastq. При исполнении скрипта подгружается модуль filter_fastq_module.py.
+Утилита для обработки данных секвенирования в формате fastq. При исполнении скрипта подгружается модуль filter_fastq_module.py. Находится в скрипте NASeqTool.py
 
 ### Использование
 
@@ -219,7 +221,7 @@ git clone git@github.com:Valeriisht/NASeqTool.git
 
 Пример структуры fastq файла:
 
-![img.png](img.png)
+![image](https://github.com/user-attachments/assets/3cbf162c-ddb6-4b33-b8c5-4747d5873ebc)
 
 ### Утилита выполняет следующие действия:
 
@@ -245,7 +247,9 @@ git clone git@github.com:Valeriisht/NASeqTool.git
 
 - Файл в формата .fasta для функции convert_multiline_fasta_to_oneline.
 -  Файл в формата .txt для функции parse_blast_output.
-- Файл в формата .gnk для функции select_genes_from_gbk_to_fasta.
+filter_fastq_update
+- Файл в формата .gbk для функции select_genes_from_gbk_to_fasta.
+
 
 ### Утилита выполняет следующие действия:
 
