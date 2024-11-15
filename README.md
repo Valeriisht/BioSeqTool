@@ -247,7 +247,9 @@ git clone git@github.com:Valeriisht/NASeqTool.git
 
 - Файл в формата .fasta для функции convert_multiline_fasta_to_oneline.
 -  Файл в формата .txt для функции parse_blast_output.
+filter_fastq_update
 - Файл в формата .gbk для функции select_genes_from_gbk_to_fasta.
+
 
 ### Утилита выполняет следующие действия:
 
