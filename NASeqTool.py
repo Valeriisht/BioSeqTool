@@ -1,7 +1,5 @@
 import os
 from Bio import SeqIO
-from Bio.Seq import Seq
-from Bio.SeqRecord import SeqRecord
 from Bio.SeqUtils import GC
 
 
@@ -35,7 +33,8 @@ class BiologicalSequence(ABC):
             key (int or slice): Index or slice of the sequence
 
         Returns:
-            BiologicalSequence: Individual element or slice of the sequence
+            BiologicalSequence: Individual element
+            or slice of the sequence
         """
         pass
 
@@ -49,54 +48,61 @@ class BiologicalSequence(ABC):
         pass
 
     @staticmethod
-    def correct_alphabet(sequence:str, alphabet:str):
+    def correct_alphabet(sequence: str, alphabet: str):
         """
-        Static method to check if a sequence contains only valid characters from a given alphabet
+        Static method to check if a sequence
+        contains only valid characters from a given alphabet
 
         Args:
             sequence (str): Biological sequence
             alphabet (str): Valid contain for the biological sequence
 
         Raises:
-            ValueError: If the sequence contains characters not present in the alphabet
+            ValueError: If the sequence contains
+            characters not present in the alphabet
         """
         pass
+
 
 class PolymerSequence(BiologicalSequence):
     """
     Initialization of the polymer sequence.
 
     Args:
-        sequence (str): The biological sequence represented as a string.
+        sequence (str): The biological
+        sequence represented as a string.
 
     Attributes:
         sequence (str): The biological sequence.
         alphabet (str): The valid characters for the biological sequence.
-        dict_complement (dict): A dictionary for replacing nucleotides with their complementary nucleotides.
+        dict_complement (dict): A dictionary for
+        replacing nucleotides with their complementary nucleotides.
     """
 
-    def __init__(self, sequence : str):
+    def __init__(self, sequence: str):
         self.sequence = sequence
         self.alphabet = ""
         self.dict_complement = {}
 
     def __len__(self):
         """
-    Returns the length of the biological sequence
-    This method is used to implement the len() function for PolymerSequence objects
+        Returns the length of the biological sequence
+        This method is used to implement the
+        len() function for PolymerSequence objects
 
-    Returns:
-        int: The length of the biological sequence
+        Returns:
+            int: The length of the biological sequence
         """
         return len(self.sequence)
-
 
     def __getitem__(self, key: str):
         """
         Individual elements or slices of the sequence
 
         Args:
-            key (str or int or slice): Index, slice, or string representing the slice of the sequence
+            key (str or int or slice): Index, slice,
+            or string representing the slice of the sequence
+
                 If int, returns the element at that index
                 If slice, returns the subsequence defined by the slice
                 If string, raises TypeError
@@ -131,29 +137,33 @@ class PolymerSequence(BiologicalSequence):
     @staticmethod
     def correct_alphabet(sequence: str, alphabet: str) -> bool:
         """
-        Checks if a given biological sequence contains only valid characters from a given alphabet.
+        Checks if a given biological sequence
+        contains only valid characters from a given alphabet.
 
         Parameters:
-        sequence (str): The biological sequence 
-        alphabet (str): The valid characters 
-        
+        sequence (str): The biological sequence
+        alphabet (str): The valid characters
+
         Raises:
-        ValueError: If the sequence contains characters not present in the alphabet
+        ValueError: If the sequence contains
+        characters not present in the alphabet
 
         Returns:
-        bool: True if the sequence contains only valid characters from the alphabet, False otherwise
+        bool: True if the sequence contains only
+        valid characters from the alphabet, False otherwise
         """
         if not set(sequence).issubset(alphabet):
-            raise ValueError("Incorrect entry, sequence contains characters not in the alphabet.")
+            raise ValueError(
+                "Incorrect entry, sequence contains characters not in the alphabet."
+            )
         return True
-
 
 
 class NucleicAcidSequence(PolymerSequence):
     """Initialization of the nucleic acid sequence
 
     Args:
-        PolymerSequence (_type_): 
+        PolymerSequence (_type_):
     """
 
     def complement(self) -> str:
@@ -167,22 +177,24 @@ class NucleicAcidSequence(PolymerSequence):
             str: The complementary sequence
 
         Raises:
-            NotImplementedError: If the method is called on the NucleicAcidSequence class directly.
+            NotImplementedError: If the method is
+            called on the NucleicAcidSequence class directly.
 
         """
 
         try:
             if self.correct_alphabet(self.sequence, self.alphabet):
                 return "".join(
-                    [self.dict_complement[nucleotide] for nucleotide in self.sequence]
-                    )
+                    [self.dict_complement[nucleotide]
+                        for nucleotide in self.sequence]
+                )
         except NotImplementedError:
             print("The method must be implemented in child classes")
 
-
     def reverse(self):
         """
-        Returns the DNA or RNA sequence from 3' to 5' (reverse of the current sequence).
+        Returns the DNA or RNA sequence from 3' to 5'
+        (reverse of the current sequence).
 
         Returns:
             str: The reverse of the current DNA or RNA sequence.
@@ -192,12 +204,11 @@ class NucleicAcidSequence(PolymerSequence):
     def reverse_complement(self):
         """
         Returns the reverse complement of the DNA or RNA sequence.
-        
+
         Returns:
             str: The reverse complement of the DNA or RNA sequence.
         """
         return self.complement()[::-1]
-
 
     def gc_content(self) -> float | str:
         """Counts the GC content of the sequence \
@@ -215,22 +226,21 @@ class AminoAcidSequence(PolymerSequence):
     """Initialization of the amino acid sequence
 
     Args:
-        PolymerSequence (_type_): 
+        PolymerSequence (_type_):
     """
 
     def __init__(self, sequence):
         super().__init__(sequence)
         self.alphabet = "ACDEFGHIKLMNPQRSTVW"
 
-
     def find_motif(self, motif):
         """Function find certain motif in sequence
 
         Args:
-            motif (_type_): 
+            motif (_type_):
 
         Returns:
-            _type_: 
+            _type_:
         """
 
         position = self.sequence.find(motif)
@@ -260,9 +270,10 @@ class DNASequence(NucleicAcidSequence):
         }
 
     def transcribe(self):
-        """The function translates a meaningful DNA molecule into an mRNA molecule. \
+        """The function translates a meaningful
+        DNA molecule into an mRNA molecule.
         If RNA is given as input, the sequence is returned unchanged.
-        
+
 
         Returns:
             _type_: _description_
@@ -274,7 +285,7 @@ class RNASequence(NucleicAcidSequence):
     """Initialization of the RNA sequence.
 
     Args:
-        NucleicAcidSequence (_type_): 
+        NucleicAcidSequence (_type_):
     """
 
     def __init__(self, sequence):
@@ -308,7 +319,7 @@ class RNASequence(NucleicAcidSequence):
         """Defines the length of CDS
 
         Returns:
-            str: 
+            str:
         """
         stop_codons = ("UAA", "UAG", "UGA")
         if self.is_coding_sequence():
@@ -317,7 +328,7 @@ class RNASequence(NucleicAcidSequence):
                 [
                     index_stop
                     for index_stop in range(pos_start, len(self.sequence), 3)
-                    if self.sequence[index_stop : (index_stop + 3)].upper()
+                    if self.sequence[index_stop: (index_stop + 3)].upper()
                     in stop_codons
                 ]
             )
@@ -330,10 +341,10 @@ class RNASequence(NucleicAcidSequence):
         return f"The {self.sequence} sequence does not encode a protein"
 
 
-
-
-# Функция Bio.SeqIO.parse() в Biopython используется для чтения последовательностей из файла или потока данных
-# Она возвращает итератор, который выдает объекты SeqRecord, позволяет обрабатывать последовательности по одной в порядке их следования в файле
+# Функция Bio.SeqIO.parse() в Biopython используется для
+# чтения последовательностей из файла или потока данных
+# Она возвращает итератор, который выдает объекты SeqRecord,
+# позволяет обрабатывать последовательности по одной в порядке их следования в файле
 
 
 def filter_fastq(
@@ -352,16 +363,19 @@ def filter_fastq(
     Args:
         input_fastq (str): _description_
         output_fastq (str): _description_
-        gc_bounds (tuple | float, optional): _description_. Defaults to (0, 100)
-        length_bounds (tuple | float, optional): _description_. Defaults to (0, 2 ** 32)
-        quality_threshold (float, optional): _description_. Defaults to 0
+        gc_bounds (tuple | float, optional):  Defaults to (0, 100)
+        length_bounds (tuple | float, optional):  Defaults to (0, 2 ** 32)
+        quality_threshold (float, optional):  Defaults to 0
         input_fastq (str): The path to the input FASTQ file
         output_fastq (str): The name of the output FASTQ file
-        gc_bounds (tuple | float, optional): The lower and upper bounds for GC content.
+        gc_bounds (tuple | float, optional):
+        The lower and upper bounds for GC content.
             Defaults to (0, 100)
-        length_bounds (tuple | float, optional): The lower and upper bounds for sequence length.
+        length_bounds (tuple | float, optional):
+        The lower and upper bounds for sequence length.
             Defaults to (0, 2 ** 32)
-        quality_threshold (float, optional): The minimum average quality score for a read.
+        quality_threshold (float, optional):
+        The minimum average quality score for a read.
             Defaults to 0
 
     Raises:
@@ -377,11 +391,13 @@ def filter_fastq(
 
     with open(input_fastq, "r") as read_file, open(output_path, "w") as write_file:
 
-        for record in SeqIO.parse(read_file, "fastq"): # возвращает итератор объектов SeqRecord
+        for record in SeqIO.parse(
+            read_file, "fastq"
+        ):  # возвращает итератор объектов SeqRecord
             seq = str(record.seq)
             quality = record.letter_annotations["phred_quality"]
 
-            gc_content = GC(seq) # GC-content 
+            gc_content = GC(seq)  # GC-content
 
             gc_lower, gc_upper = (
                 gc_bounds if isinstance(gc_bounds, tuple) else (0, gc_bounds)
@@ -392,11 +408,14 @@ def filter_fastq(
                 length_bounds
                 if isinstance(length_bounds, tuple)
                 else (0, length_bounds)
-            ) 
+            )
 
-            is_good_length = length_lower <= len(seq) <= length_upper # length check
+            is_good_length = length_lower <= len(
+                seq) <= length_upper  # length check
 
-            is_good_quality = sum(quality) / len(quality) >= quality_threshold # quality check
+            is_good_quality = (
+                sum(quality) / len(quality) >= quality_threshold
+            )  # quality check
 
             filters = [is_good_gc, is_good_length, is_good_quality]
 
