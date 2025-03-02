@@ -1,7 +1,7 @@
-- [**English version**](#NASeqTool)
+- [**English version**](#BioSeqTool)
 
   
-# NASeqTool
+# BioSeqTool
 
 <img align=right src="https://github.com/user-attachments/assets/70983c21-48f4-41d0-a7dc-9d5b63982eff" alt="#NASeqTool" width="100"/>
 
