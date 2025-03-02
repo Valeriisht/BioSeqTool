@@ -4,14 +4,12 @@ from Bio import SeqIO
 from Bio.SeqUtils import GC
 
 
-
-
 class BiologicalSequence(ABC):
     """Abstract base class for biological sequences
-    
+
     Args:
         ABC (_type_): Abstract Base Class from abc module
-        
+
     Methods:
         __len__(self): Returns the length of the biological sequence
         __getitem__(self, key): Allows accessing individual elements or slices of the sequence
@@ -21,8 +19,8 @@ class BiologicalSequence(ABC):
 
     @abstractmethod
     def __len__(self):
-        """ Returns the length of the biological sequence
-        
+        """Returns the length of the biological sequence
+
         Returns:
             int: Length of the biological sequence+
         """
@@ -31,10 +29,10 @@ class BiologicalSequence(ABC):
     def __getitem__(self, key):
         """
         Accessing individual elements or slices of the sequence
-        
+
         Args:
             key (int or slice): Index or slice of the sequence
-            
+
         Returns:
             BiologicalSequence: Individual element or slice of the sequence
         """
@@ -43,7 +41,7 @@ class BiologicalSequence(ABC):
     def __repr__(self):
         """
         Returns a string representation of the object
-        
+
         Returns:
             str: String representation of the object
         """
@@ -57,7 +55,7 @@ class BiologicalSequence(ABC):
         Args:
             sequence (str): Biological sequence
             alphabet (str): Valid contain for the biological sequence
-            
+
         Raises:
             ValueError: If the sequence contains characters not present in the alphabet
         """
@@ -125,8 +123,7 @@ class NucleicAcidSequence(PolymerSequence):
         try:
             if PolymerSequence.correct_alphabet(self.sequence, self.alphabet):
                 return "".join(
-                    [self.dict_complement[nucleotide] 
-                    for nucleotide in self.sequence]
+                    [self.dict_complement[nucleotide] for nucleotide in self.sequence]
                 )
         except NotImplementedError:
             print("The method must be implemented in child classes")
@@ -273,7 +270,7 @@ class RNASequence(NucleicAcidSequence):
                 [
                     index_stop
                     for index_stop in range(pos_start, len(self.sequence), 3)
-                    if self.sequence[index_stop: (index_stop + 3)].upper()
+                    if self.sequence[index_stop : (index_stop + 3)].upper()
                     in stop_codons
                 ]
             )
@@ -286,9 +283,9 @@ class RNASequence(NucleicAcidSequence):
         return f"The {self.sequence} sequence does not encode a protein"
 
 
-
-# Функция Bio.SeqIO.parse() в Biopython используется для чтения последовательностей из файла или потока данных. 
+# Функция Bio.SeqIO.parse() в Biopython используется для чтения последовательностей из файла или потока данных.
 # Она возвращает итератор, который выдает объекты SeqRecord, позволяет обрабатывать последовательности по одной в порядке их следования в файле
+
 
 def filter_fastq(
     input_fastq: str,
@@ -350,14 +347,9 @@ def filter_fastq(
             )
             is_good_length = length_lower <= len(seq) <= length_upper
 
-
-            is_good_quality = (
-                sum(quality) / len(quality) >= quality_threshold
-            )
+            is_good_quality = sum(quality) / len(quality) >= quality_threshold
 
             filters = [is_good_gc, is_good_length, is_good_quality]
 
             if all(filters):
                 SeqIO.write(record, write_file, "fastq")
-
-
