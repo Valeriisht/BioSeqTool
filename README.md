@@ -3,7 +3,7 @@
   
 # BioSeqTool
 
-<img align=right src="https://github.com/user-attachments/assets/70983c21-48f4-41d0-a7dc-9d5b63982eff" alt="#NASeqTool" width="100"/>
+<img align=right src="https://github.com/user-attachments/assets/70983c21-48f4-41d0-a7dc-9d5b63982eff" alt="#BioSeqTool" width="100"/>
 
 **NASeqTool** is a bioinformatics tool  for analyzing Biological sequences.
 
@@ -14,17 +14,17 @@ The repository consists of a main script are used for DNA/RNA sequence processin
 Clone the repository to a local device.
 
 ```sh
-git clone git@github.com:Valeriisht/NASeqTool.git
+git clone git@github.com:Valeriisht/BioSeqTool.git
 ```
 
 The utility was designed to run on Python version 3.9 or newer.
 
-- ### NASeqTool
+- ### BioSeqTool
     - [**Biological sequences**](#biological-sequences) 
     - [**filter_fastq_tool**](#filter_fastq_tool)
     - [**bio_files_processor**](#bio_files_processor)
 
-A utility for manipulating DNA/RNA molecules. The script is written using object-oriented programming.
+A utility for manipulating Biologucal molecules. The script is written using object-oriented programming.
 
 ## Biological sequences
 
