@@ -26,7 +26,7 @@ class BiologicalSequence(ABC):
         """
         pass
 
-    def __getitem__(self, key:int):
+    def __getitem__(self, key):
         """
         Accessing individual elements or slices of the sequence
 
@@ -61,28 +61,57 @@ class BiologicalSequence(ABC):
         """
         pass
 
-
 class PolymerSequence(BiologicalSequence):
-    """Initialization of the polymer sequence
+    """
+    Initialization of the polymer sequence.
 
     Args:
-        BiologicalSequence (_type_): 
+        sequence (str): The biological sequence represented as a string.
+
+    Attributes:
+        sequence (str): The biological sequence.
+        alphabet (str): The valid characters for the biological sequence.
+        dict_complement (dict): A dictionary for replacing nucleotides with their complementary nucleotides.
     """
 
-    def __init__(self, sequence:str):
+    def __init__(self, sequence : str):
         self.sequence = sequence
         self.alphabet = ""
         self.dict_complement = {}
 
     def __len__(self):
+        """
+    Returns the length of the biological sequence
+    This method is used to implement the len() function for PolymerSequence objects
+
+    Returns:
+        int: The length of the biological sequence
+        """
         return len(self.sequence)
 
-    def __getitem__(self, key:str):
+
+    def __getitem__(self, key: str):
+        """
+        Individual elements or slices of the sequence
+
+        Args:
+            key (str or int or slice): Index, slice, or string representing the slice of the sequence
+                If int, returns the element at that index
+                If slice, returns the subsequence defined by the slice
+                If string, raises TypeError
+
+        Returns:
+            str: The subsequence defined by the key
+
+        Raises:
+            IndexError: If the index is out of range
+            TypeError: If the key is not an int or a slice
+        """
         if isinstance(key, int):
             if key < 0:
                 key += len(self.sequence)
             elif key >= len(self.sequence):
-                raise IndexError("The range out of thr list")
+                raise IndexError("The range is out of the list.")
             return self.sequence[key]
         elif isinstance(key, slice):
             start, stop, step = key.start, key.stop, key.step
@@ -92,15 +121,31 @@ class PolymerSequence(BiologicalSequence):
             start = len(self.sequence) + start if start < 0 else start
             stop = len(self.sequence) + stop if stop < 0 else stop
             return self.sequence[start:stop:step]
+        else:
+            raise TypeError("Key must be an int or a slice.")
 
     def __repr__(self):
         return f"{self.__class__.__name__}({self.sequence})"
 
     @staticmethod
-    def correct_alphabet(sequence:str, alphabet:str):
+    def correct_alphabet(sequence: str, alphabet: str) -> bool:
+        """
+        Checks if a given biological sequence contains only valid characters from a given alphabet.
+
+        Parameters:
+        sequence (str): The biological sequence 
+        alphabet (str): The valid characters 
+        
+        Raises:
+        ValueError: If the sequence contains characters not present in the alphabet
+
+        Returns:
+        bool: True if the sequence contains only valid characters from the alphabet, False otherwise
+        """
         if not set(sequence).issubset(alphabet):
-            raise ValueError("Incorrect entry")
+            raise ValueError("Incorrect entry, sequence contains characters not in the alphabet.")
         return True
+
 
 
 class NucleicAcidSequence(PolymerSequence):
@@ -110,39 +155,48 @@ class NucleicAcidSequence(PolymerSequence):
         PolymerSequence (_type_): 
     """
 
-    def complement(self):
-        """_Returns the complementary sequence for DNA or RNA
+    def complement(self) -> str:
+        """
+        Returns the complementary sequence for DNA or RNA.
 
         Args:
-            dict_com (dict): A dictionary for replacing nucleotides with their complementary nucleotides
+            self (NucleicAcidSequence): An instance of NucleicAcidSequence
 
         Returns:
-            _type_: Complementary Sequence.
+            str: The complementary sequence
+
+        Raises:
+            NotImplementedError: If the method is called on the NucleicAcidSequence class directly.
+
         """
 
         try:
-            if PolymerSequence.correct_alphabet(self.sequence, self.alphabet):
+            if self.correct_alphabet(self.sequence, self.alphabet):
                 return "".join(
                     [self.dict_complement[nucleotide] for nucleotide in self.sequence]
-                )
+                    )
         except NotImplementedError:
             print("The method must be implemented in child classes")
 
+
     def reverse(self):
-        """Returns the DNA or RNA sequence from 3' to 5'
+        """
+        Returns the DNA or RNA sequence from 3' to 5' (reverse of the current sequence).
 
         Returns:
-            _type_: _description_
+            str: The reverse of the current DNA or RNA sequence.
         """
         return self.sequence[::-1]
 
     def reverse_complement(self):
-        """Returns the complementary DNA/cDNA strand in the 5' to 3' direction
-
+        """
+        Returns the reverse complement of the DNA or RNA sequence.
+        
         Returns:
-            _type_: _description_
+            str: The reverse complement of the DNA or RNA sequence.
         """
         return self.complement()[::-1]
+
 
     def gc_content(self) -> float | str:
         """Counts the GC content of the sequence \
