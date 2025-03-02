@@ -1,6 +1,7 @@
 import os
-from abc import ABC, abstractmethod
 from Bio import SeqIO
+from Bio.Seq import Seq
+from Bio.SeqRecord import SeqRecord
 from Bio.SeqUtils import GC
 
 
@@ -203,7 +204,7 @@ class NucleicAcidSequence(PolymerSequence):
         returns the percentage of GC nucleotides in the sequence
 
         Returns:
-            float | str: _description_
+            float | int: GC-content
         """
         count_g = self.sequence.upper().count("G")
         count_c = self.sequence.upper().count("C")
@@ -211,32 +212,25 @@ class NucleicAcidSequence(PolymerSequence):
 
 
 class AminoAcidSequence(PolymerSequence):
-    """_summary_
+    """Initialization of the amino acid sequence
 
     Args:
-        PolymerSequence (_type_): _description_
+        PolymerSequence (_type_): 
     """
 
     def __init__(self, sequence):
         super().__init__(sequence)
         self.alphabet = "ACDEFGHIKLMNPQRSTVW"
 
-    @staticmethod
-    def correct_alphabet(sequence, alphabet):
-        """Checks whether the AminoAcid sequence"""
-
-        if not set(sequence).issubset(alphabet):
-            raise ValueError("Incorrect entry")
-        return True
 
     def find_motif(self, motif):
-        """_summary_
+        """Function find certain motif in sequence
 
         Args:
-            motif (_type_): _description_
+            motif (_type_): 
 
         Returns:
-            _type_: _description_
+            _type_: 
         """
 
         position = self.sequence.find(motif)
@@ -246,10 +240,9 @@ class AminoAcidSequence(PolymerSequence):
 
 
 class DNASequence(NucleicAcidSequence):
-    """_summary_
+    """Initialization of the DNA sequence
 
     Args:
-        NucleicAcidSequence (_type_): _description_
     """
 
     def __init__(self, sequence):
@@ -278,10 +271,10 @@ class DNASequence(NucleicAcidSequence):
 
 
 class RNASequence(NucleicAcidSequence):
-    """_summary_
+    """Initialization of the RNA sequence.
 
     Args:
-        NucleicAcidSequence (_type_): _description_
+        NucleicAcidSequence (_type_): 
     """
 
     def __init__(self, sequence):
@@ -303,7 +296,7 @@ class RNASequence(NucleicAcidSequence):
         can encode a protein
 
         Returns:
-            bool: _description_
+            bool:
         """
         stop_codons = ("UAA", "UAG", "UGA")
         return (
@@ -315,7 +308,7 @@ class RNASequence(NucleicAcidSequence):
         """Defines the length of CDS
 
         Returns:
-            str: _description_
+            str: 
         """
         stop_codons = ("UAA", "UAG", "UGA")
         if self.is_coding_sequence():
@@ -337,7 +330,9 @@ class RNASequence(NucleicAcidSequence):
         return f"The {self.sequence} sequence does not encode a protein"
 
 
-# Функция Bio.SeqIO.parse() в Biopython используется для чтения последовательностей из файла или потока данных.
+
+
+# Функция Bio.SeqIO.parse() в Biopython используется для чтения последовательностей из файла или потока данных
 # Она возвращает итератор, который выдает объекты SeqRecord, позволяет обрабатывать последовательности по одной в порядке их следования в файле
 
 
@@ -362,16 +357,15 @@ def filter_fastq(
         quality_threshold (float, optional): _description_. Defaults to 0
         input_fastq (str): The path to the input FASTQ file
         output_fastq (str): The name of the output FASTQ file
-        gc_bounds (tuple | float, optional): The lower and upper bounds for GC content.#+
+        gc_bounds (tuple | float, optional): The lower and upper bounds for GC content.
             Defaults to (0, 100)
-        length_bounds (tuple | float, optional): The lower and upper bounds for sequence length.#+
+        length_bounds (tuple | float, optional): The lower and upper bounds for sequence length.
             Defaults to (0, 2 ** 32)
-        quality_threshold (float, optional): The minimum average quality score for a read.#+
-            Defaults to 0.#+
+        quality_threshold (float, optional): The minimum average quality score for a read.
+            Defaults to 0
 
     Raises:
-        SystemError: _description_#-
-        SystemError: If the input FASTQ file does not exist.#+
+        SystemError: If the input FASTQ file does not exist
     """
     if not os.path.exists(input_fastq):
         raise SystemError("File does not exist")
@@ -383,11 +377,11 @@ def filter_fastq(
 
     with open(input_fastq, "r") as read_file, open(output_path, "w") as write_file:
 
-        for record in SeqIO.parse(read_file, "fastq"):
+        for record in SeqIO.parse(read_file, "fastq"): # возвращает итератор объектов SeqRecord
             seq = str(record.seq)
             quality = record.letter_annotations["phred_quality"]
 
-            gc_content = GC(seq)
+            gc_content = GC(seq) # GC-content 
 
             gc_lower, gc_upper = (
                 gc_bounds if isinstance(gc_bounds, tuple) else (0, gc_bounds)
@@ -398,10 +392,11 @@ def filter_fastq(
                 length_bounds
                 if isinstance(length_bounds, tuple)
                 else (0, length_bounds)
-            )
-            is_good_length = length_lower <= len(seq) <= length_upper
+            ) 
 
-            is_good_quality = sum(quality) / len(quality) >= quality_threshold
+            is_good_length = length_lower <= len(seq) <= length_upper # length check
+
+            is_good_quality = sum(quality) / len(quality) >= quality_threshold # quality check
 
             filters = [is_good_gc, is_good_length, is_good_quality]
 
