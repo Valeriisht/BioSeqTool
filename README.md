@@ -127,9 +127,3 @@ Detect a certain number of genes before and after each gene of interest and save
 
 The function takes as input input_gbk (path to the input GBK file), genes (genes of interest near which neighbors are searched), n_before, n_after (number of genes before and after (>=1)), output_fasta (name of the output file).
 
-# NASeqTool_
-
-<img align=right src="https://github.com/user-attachments/assets/612014fa-fa0d-4102-a23c-0ef233ae3b48" alt="#NASeqTool" width="100"/>
-
-
-
