@@ -43,31 +43,31 @@ You will need:
 
 ### The utility can perform the following operations: 
 
-- ### Function ```reverse``` in Nuclein Acid Sequence class
+- #### Function ```reverse``` in Nuclein Acid Sequence class
 
 Returns the complementary DNA strand in the 3' to 5' direction. For an RNA molecule, cDNA is returned.
 
-- ### Function ```reverse_complement``` in Nuclein Acid Sequence class
+- #### Function ```reverse_complement``` in Nuclein Acid Sequence class
 
 Returns the complementary DNA/cDNA strand in the 5' to 3' direction.
 
-- ### Function ```gc_content``` in Nuclein Acid Sequence class
+- #### Function ```gc_content``` in Nuclein Acid Sequence class
 
 Counts the GC composition of the sequence and returns the percentage of GC nucleotides.
 
-- ### Function ```Motif``` in Amino Sequence class.
+- #### Function ```Motif``` in Amino Sequence class.
 
  Finds a specific motif in a protein molecule 
 
-- ### Function ```transcribe``` in DNA Sequence class.
+- #### Function ```transcribe``` in DNA Sequence class.
 
 The meaningful DNA sequence is translated into an mRNA molecule. 
 
-- ### Function ```is_na_sequence``` in RNA Sequence class.
+- #### Function ```is_na_sequence``` in RNA Sequence class.
 
 Checks whether the sequence is DNA or RNA.
 
-- ### Function ```length_cds``` in RNA Sequence class
+- #### Function ```length_cds``` in RNA Sequence class
 
 Determines the length of the CDS coding sequence.
 
