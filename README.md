@@ -7,7 +7,7 @@
 
 **NASeqTool** is a bioinformatics tool  for analyzing DNA and RNA sequences.
 
-The repository consists of a main script and additional modules that are used for DNA/RNA sequence processing and sequencing data processing. The scripts are written in the Python programming language.
+The repository consists of a main script are used for DNA/RNA sequence processing and sequencing data processing. The scripts are written in the Python programming language.
 
 ## Installation
 
@@ -17,26 +17,15 @@ Clone the repository to a local device.
 git clone git@github.com:Valeriisht/NASeqTool.git
 ```
 
-## Content
-
-The repository structure is structured as the main folder with the master NASeqTool script, where the basic functions are declared, and the subfolder functions with imported modules.
-
-<img width="400" alt="Rep Structure" src="https://github.com/user-attachments/assets/710383e6-8bbc-4b31-bc2e-e966fca2a58b">
-
-
-
-
-The utility was designed to run on Python version 3.10 or newer.
+The utility was designed to run on Python version 3.9 or newer.
 
 - ### NASeqTool
-    - [**run_dna_rna_tools**](#run_dna_rna_tools)
+    - [**NASeqToll**](#run_dna_rna_tools)
     - [**filter_fastq_tool**](#filter_fastq_tool)
     - [**bio_files_processor**](#bio_files_processor)
+    - 
 
-## run_dna_rna_tools
-
-A utility for manipulating DNA/RNA molecules. The run_dna_rna_tool_module.py module is loaded when the script is executed. It is located in the NASeqTool.py script.
-
+A utility for manipulating DNA/RNA molecules. The script is written using object-oriented programming.
 
 
 ### Usage
@@ -44,47 +33,48 @@ You will need:
 
 - DNA/RNA sequences are list (or string when performing an operation on a single sequence), which are required parameters for function calls.
 
+### The utility has five Classes: 
 
+- Polymer Sequence
+  - Nuclein Acid Sequence
+    - DNA Sequence
+    - RNA Sequence 
+  - Amino Acid Sequence 
 
 ### The utility can perform the following operations: 
 
-- ### Function ```transcribe```.
-
-The meaningful DNA sequence is translated into an mRNA molecule. If RNA is passed as input, the sequence is returned unchanged.
-
-- ### Function ```reverse```
+- ### Function ```reverse``` in Nuclein Acid Sequence class
 
 Returns the complementary DNA strand in the 3' to 5' direction. For an RNA molecule, cDNA is returned.
 
-- ### Function ```reverse_complement```
+- ### Function ```reverse_complement``` in Nuclein Acid Sequence class
 
 Returns the complementary DNA/cDNA strand in the 5' to 3' direction.
 
-- ### Function ```gc_content```
+- ### Function ```gc_content``` in Nuclein Acid Sequence class
 
 Counts the GC composition of the sequence and returns the percentage of GC nucleotides.
 
-- ### Function ```is_na_sequence```.
+- ### Function ```Motif``` in Amino Sequence class.
+
+ Finds a specific motif in a protein molecule 
+
+- ### Function ```transcribe``` in DNA Sequence class.
+
+The meaningful DNA sequence is translated into an mRNA molecule. 
+
+- ### Function ```is_na_sequence``` in RNA Sequence class.
 
 Checks whether the sequence is DNA or RNA.
 
-- ### Function ```length_cds```
+- ### Function ```length_cds``` in RNA Sequence class
 
 Determines the length of the CDS coding sequence.
 
+
 ## filter_fastq_tool
 
-The utility for analyzing sequencing data in fastq format. The filter_fastq_module.py module is loaded when the script is executed.It is located in the NASeqTool.py script.
-
-### Usage
-
-You will need:
-
-- File in fastq format.
-
-Example fastq file structure:
-
-![image](https://github.com/user-attachments/assets/4c588d9b-6591-4adf-9ac7-85be25844346)
+The utility for analyzing sequencing data in fastq format. The function is written using the functionality from BioPython
 
 ### The utility performs the steps below:
 
