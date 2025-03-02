@@ -31,7 +31,7 @@ A utility for manipulating Biologucal molecules. The script is written using obj
 ### Usage
 You will need:
 
-- DNA/RNA sequences are list (or string when performing an operation on a single sequence), which are required parameters for function calls.
+- DNA/RNA or amino sequences are list (or string when performing an operation on a single sequence), which are required parameters for function calls.
 
 ### The utility has five Classes: 
 
