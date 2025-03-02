@@ -20,13 +20,13 @@ git clone git@github.com:Valeriisht/NASeqTool.git
 The utility was designed to run on Python version 3.9 or newer.
 
 - ### NASeqTool
-    - [**NASeqToll**](#run_dna_rna_tools)
+    - [**Biological sequences**](#biological_sequences)
     - [**filter_fastq_tool**](#filter_fastq_tool)
     - [**bio_files_processor**](#bio_files_processor)
-    - 
 
 A utility for manipulating DNA/RNA molecules. The script is written using object-oriented programming.
 
+## Biological sequences
 
 ### Usage
 You will need:
