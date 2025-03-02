@@ -76,6 +76,12 @@ Determines the length of the CDS coding sequence.
 
 The utility for analyzing sequencing data in fastq format. The function is written using the functionality from BioPython
 
+Using:
+
+- SeqIO is a Biopython module that allows to read and write sequence files in various formats such as FASTA, FASTQ, GenBank
+- SeqUtils provides various functions for working with biological sequences (includes tools for analyzing and manipulating DNA, RNA, and protein sequences - GC-content, weight)
+- SeqRecord is an object that contains a sequence and information about it. It allows the storage of biological sequences
+
 ### The utility performs the steps below:
 
 - Filtering the sequence with regard to gc_composition. The gc- composition is counted and determines if the value is within the thresholds.
