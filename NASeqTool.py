@@ -22,11 +22,11 @@ class BiologicalSequence(ABC):
         """Returns the length of the biological sequence
 
         Returns:
-            int: Length of the biological sequence+
+            int: Length of the biological sequence
         """
         pass
 
-    def __getitem__(self, key):
+    def __getitem__(self, key:int):
         """
         Accessing individual elements or slices of the sequence
 
@@ -48,9 +48,9 @@ class BiologicalSequence(ABC):
         pass
 
     @staticmethod
-    def correct_alphabet(sequence, alphabet):
+    def correct_alphabet(sequence:str, alphabet:str):
         """
-        Static method to check if a sequence contains only valid characters from a given alphabet.#+
+        Static method to check if a sequence contains only valid characters from a given alphabet
 
         Args:
             sequence (str): Biological sequence
@@ -63,13 +63,13 @@ class BiologicalSequence(ABC):
 
 
 class PolymerSequence(BiologicalSequence):
-    """_summary_
+    """Initialization of the polymer sequence
 
     Args:
-        BiologicalSequence (_type_): _description_
+        BiologicalSequence (_type_): 
     """
 
-    def __init__(self, sequence):
+    def __init__(self, sequence:str):
         self.sequence = sequence
         self.alphabet = ""
         self.dict_complement = {}
@@ -77,7 +77,7 @@ class PolymerSequence(BiologicalSequence):
     def __len__(self):
         return len(self.sequence)
 
-    def __getitem__(self, key):
+    def __getitem__(self, key:str):
         if isinstance(key, int):
             if key < 0:
                 key += len(self.sequence)
@@ -97,27 +97,27 @@ class PolymerSequence(BiologicalSequence):
         return f"{self.__class__.__name__}({self.sequence})"
 
     @staticmethod
-    def correct_alphabet(sequence, alphabet):
+    def correct_alphabet(sequence:str, alphabet:str):
         if not set(sequence).issubset(alphabet):
             raise ValueError("Incorrect entry")
         return True
 
 
 class NucleicAcidSequence(PolymerSequence):
-    """_summary_
+    """Initialization of the nucleic acid sequence
 
     Args:
-        PolymerSequence (_type_): _description_
+        PolymerSequence (_type_): 
     """
 
     def complement(self):
-        """_summary_
+        """_Returns the complementary sequence for DNA or RNA
 
         Args:
-            dict_com (dict): _description_
+            dict_com (dict): A dictionary for replacing nucleotides with their complementary nucleotides
 
         Returns:
-            _type_: _description_
+            _type_: Complementary Sequence.
         """
 
         try:
