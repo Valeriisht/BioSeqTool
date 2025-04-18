@@ -1,5 +1,5 @@
  .idea/
-__pycache__/
+__pycache*
 example_data.py
 flake8.png
 functions/__pycache__/
