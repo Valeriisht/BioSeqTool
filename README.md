@@ -18,7 +18,7 @@ git clone git@github.com:Valeriisht/BioSeqTool.git
 ```
 ## Structure
 
-<img src="~/image/Repository_str.png" width="500">
+<img src="image/Repository_str.png" width="500">
 
 The utility was designed to run on Python version 3.9 or newer.
 
@@ -97,6 +97,17 @@ By default, the threshold values are defined from 0 to 2**32.
 By default, the threshold value is 0.
 
 The result of the program is an output_file containing only those reads that have passed each of the three filters.
+
+The function is realised in main.py
+
+And it's lounch from command line with next parametrs:
+
+- -h, --help - show this help message and exit
+-  -I INPUT, --input INPUT - Input FASTQ file path
+-  -O OUTPUT, --output OUTPUT -  Output FASTQ file path  (default: <input>_filtered.fq)
+-  -gc MIN MAX  - param for filtering by gc-composition
+-  -l MIN MAX, --length MIN MAX -param for filtering by length_bounds
+-  -q QUALITY, --quality QUALITY - Parametr for filtering by quality
 
 ## bio_files_processor
 
