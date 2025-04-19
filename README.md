@@ -18,7 +18,7 @@ git clone git@github.com:Valeriisht/BioSeqTool.git
 ```
 ## Structure
 
-<img src=~/image/Repository_str.png width 500>
+<img src="~/image/Repository_str.png" width="500">
 
 The utility was designed to run on Python version 3.9 or newer.
 
