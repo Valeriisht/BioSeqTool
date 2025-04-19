@@ -1,6 +1,9 @@
 import os
 from Bio import SeqIO
-from Bio.SeqUtils import GC
+from Bio.SeqUtils import gc_fraction as GC
+from abc import ABC, abstractmethod
+import pytest
+import sys
 
 
 class BiologicalSequence(ABC):
@@ -185,8 +188,7 @@ class NucleicAcidSequence(PolymerSequence):
         try:
             if self.correct_alphabet(self.sequence, self.alphabet):
                 return "".join(
-                    [self.dict_complement[nucleotide]
-                        for nucleotide in self.sequence]
+                    [self.dict_complement[nucleotide] for nucleotide in self.sequence]
                 )
         except NotImplementedError:
             print("The method must be implemented in child classes")
@@ -328,7 +330,7 @@ class RNASequence(NucleicAcidSequence):
                 [
                     index_stop
                     for index_stop in range(pos_start, len(self.sequence), 3)
-                    if self.sequence[index_stop: (index_stop + 3)].upper()
+                    if self.sequence[index_stop : (index_stop + 3)].upper()
                     in stop_codons
                 ]
             )
@@ -345,6 +347,9 @@ class RNASequence(NucleicAcidSequence):
 # чтения последовательностей из файла или потока данных
 # Она возвращает итератор, который выдает объекты SeqRecord,
 # позволяет обрабатывать последовательности по одной в порядке их следования в файле
+
+# ===========================================================
+# ===========================================================
 
 
 def filter_fastq(
@@ -389,6 +394,26 @@ def filter_fastq(
 
     output_path = os.path.join("filtered", output_fastq)
 
+    if isinstance(gc_bounds, tuple):
+        gc_lower, gc_upper = gc_bounds
+        if gc_lower < 0 or gc_upper > 100 or gc_lower > gc_upper:
+            raise ValueError("GC bound must be between 0 and 100")
+    else:
+        gc_lower = 0
+        gc_upper = float(gc_bounds)
+        if gc_upper < 0 or gc_lower > 100:
+            raise ValueError("GC bound must be between 0 and 100")
+
+    if isinstance(length_bounds, tuple):
+        length_lower, length_upper = length_bounds
+        if length_lower < 0 or length_upper < 0 or length_lower > length_upper:
+            raise ValueError("Length bounds are invalid")
+    else:
+        length_lower = 0
+        length_upper = int(length_bounds)
+        if length_upper < 0:
+            raise ValueError("Length bounds are invalid")
+
     with open(input_fastq, "r") as read_file, open(output_path, "w") as write_file:
 
         for record in SeqIO.parse(
@@ -397,21 +422,12 @@ def filter_fastq(
             seq = str(record.seq)
             quality = record.letter_annotations["phred_quality"]
 
-            gc_content = GC(seq)  # GC-content
+            gc_content = GC(seq)
+            # print(f"Record {record.id}: GC={gc_content}%")  # GC-content - checked
 
-            gc_lower, gc_upper = (
-                gc_bounds if isinstance(gc_bounds, tuple) else (0, gc_bounds)
-            )
             is_good_gc = gc_lower <= gc_content <= gc_upper
 
-            length_lower, length_upper = (
-                length_bounds
-                if isinstance(length_bounds, tuple)
-                else (0, length_bounds)
-            )
-
-            is_good_length = length_lower <= len(
-                seq) <= length_upper  # length check
+            is_good_length = length_lower <= len(seq) <= length_upper  # length check
 
             is_good_quality = (
                 sum(quality) / len(quality) >= quality_threshold
