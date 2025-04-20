@@ -3,7 +3,7 @@ from loguru import logger
 import sys
 from pathlib import Path
 
-from scripts/NASeqTool import filter_fastq
+from scripts.NASeqTool import filter_fastq
 
 # Вызов данной функции приведёт к изменению свойств root logger
 logs_format = "<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | <level>{level: <8}</level> | <cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> - <level>{message}</level>"
