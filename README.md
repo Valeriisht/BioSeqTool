@@ -96,18 +96,24 @@ By default, the threshold values are defined from 0 to 2**32.
 - Sequence filtering with respect to sequence quality. Checks whether the quality on the phred33 scale is within the specified threshold values. The sequence quality is translated from phred33 scale to ASCII.
 By default, the threshold value is 0.
 
-The result of the program is an output_file containing only those reads that have passed each of the three filters.
+The output of the program is an output_file containing only those readings that passed each of the three filters.
 
-The function is realised in main.py
+The function is implemented in main.py
 
-And it's lounch from command line with next parametrs:
+And is run from the command line with the following parameters:
 
-- -h, --help - show this help message and exit
--  -I INPUT, --input INPUT - Input FASTQ file path
--  -O OUTPUT, --output OUTPUT -  Output FASTQ file path  (default: <input>_filtered.fq)
--  -gc MIN MAX  - param for filtering by gc-composition
--  -l MIN MAX, --length MIN MAX -param for filtering by length_bounds
--  -q QUALITY, --quality QUALITY - Parametr for filtering by quality
+- **-h, --help** - show this help message and exit
+- **-I INPUT, --input INPUT** - Path to the input FASTQ file
+- **-O OUTPUT, --output OUTPUT** - Path to the output FASTQ file (default: <input>_filtered.fq)
+- **-gc MIN MAX** - parameter for filtering by gc-composition
+- **-l MIN MAX, --length MIN MAX** - parameter for filtering by length_bounds
+- **-q QUALITY, --quality QUALITY** - parameter for filtering by quality
+
+For checking func_work, unit tests are provided in
+
+run with:
+
+```pytest test_filter_fastq.py```
 
 ## bio_files_processor
 
