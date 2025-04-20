@@ -11,7 +11,7 @@ import os
 
 sys.path.append(os.path.dirname(os.getcwd()))
 
-from NASeqTool import filter_fastq
+from scripts.NASeqTool import filter_fastq
 
 
 # ======================
