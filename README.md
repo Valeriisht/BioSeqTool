@@ -113,7 +113,7 @@ For checking func_work, unit tests are provided in
 
 run with:
 
-```pytest test_filter_fastq.py```
+```pytest test_filter_fastq.py``` in tests folder
 
 ## bio_files_processor
 
