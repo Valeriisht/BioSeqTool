@@ -23,28 +23,28 @@ from scripts.NASeqTool import filter_fastq
 def tmp_fastq_file():
     """Create a temporary FASTQ file with various test sequences"""
     records = [
-        # Perfect record - passes all filters
+        # passes all filters
         SeqRecord(
             Seq("ATGC"),  # GC=50%, length=4
             id="perfect_record",
             description="Passes all filters",
             letter_annotations={"phred_quality": [40, 40, 40, 40]},  # avg=40
         ),
-        # Fails GC and quality
+        # bad GC and quality
         SeqRecord(
             Seq("AAAAAA"),  # GC=0%, length=6
             id="low_gc_poor_quality",
             description="Fails GC and quality filters",
             letter_annotations={"phred_quality": [10, 10, 10, 10, 10, 10]},  # avg=10
         ),
-        # Edge case GC
+        # edge  GC
         SeqRecord(
             Seq("GGGA"),  # GC=75%, length=4
             id="high_gc_record",
             description="Edge case GC content",
             letter_annotations={"phred_quality": [30, 30, 30, 30]},  # avg=30
         ),
-        # Fails length
+        # falils length
         SeqRecord(
             Seq("ATGCATGC"),  # GC=50%, length=8
             id="long_sequence",
@@ -53,7 +53,7 @@ def tmp_fastq_file():
                 "phred_quality": [20, 20, 20, 20, 20, 20, 20, 20]
             },  # avg=20
         ),
-        # Additional test cases
+        # add test 
         SeqRecord(
             Seq("GATGACA"),  # GC=42.8%, length=7
             id="medium_gc",
