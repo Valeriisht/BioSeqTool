@@ -108,6 +108,7 @@ def main():
         logger.critical(f"Failed with {e}")
         sys.exit(1)  # 1 - общепринятый код ошибки
 
+logger = logging.getLogger(__name__)
 
 if __name__ == "__main__":
     main()
