@@ -101,6 +101,8 @@ def main():
             length_bounds=length_bounds,
             quality_threshold=args.quality,
         )
+        
+        logger.info("Ending main function")
 
     except Exception as e:
         logger.critical(f"Failed with {e}")
