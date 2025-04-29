@@ -1,6 +1,5 @@
 import os
 
-
 if not os.path.isdir("bio_files_output"):
     os.makedirs("bio_files_output")
 
